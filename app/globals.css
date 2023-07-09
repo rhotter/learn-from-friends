@@ -82,11 +82,11 @@ body {
 }
 
 h2 {
-  @apply text-lg font-semibold text-slate-800;
+  @apply text-base font-semibold text-slate-800;
 }
 
 h1 {
-  @apply text-xl font-semibold text-slate-800;
+  @apply text-xl font-semibold text-slate-800 mb-4;
 }
 
 p {

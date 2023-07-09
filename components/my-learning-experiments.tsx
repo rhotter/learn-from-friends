@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export const MyLearningExperiments: React.FC = () => {
   return (
     <div className="mt-4">
-      <h1 className="mb-4">My Learning Experiments</h1>
+      <h1>My Learning Experiments</h1>
       <NewExperiment />
       <div className="flex flex-col gap-2">
         <Experiment

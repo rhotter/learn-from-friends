@@ -15,9 +15,7 @@ export const Layout: React.FC<{
 const Nav: React.FC = () => (
   <div className="w-full border-b p-4">
     <Link href="/">
-      <h2 className="text-lg font-semibold cursor-pointer">
-        Learning Experiment
-      </h2>
+      <h2 className="cursor-pointer">Learning Experiment</h2>
     </Link>
   </div>
 );
