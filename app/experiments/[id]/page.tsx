@@ -3,6 +3,7 @@ import Link from "next/link";
 import { TopicSubmissions } from "../../../components/TopicSubmissions";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
+import { fetchApp } from "@/lib/fetchApp";
 
 export interface Topic {
   name: string;
@@ -10,14 +11,9 @@ export interface Topic {
 }
 
 async function getTopics(experimentId: number) {
-  const res = await fetch(
-    `http://localhost:3000/api/experiment_topics?experiment_id=${experimentId}`
+  const topics: Topic[] = await fetchApp(
+    `/api/experiment_topics?experiment_id=${experimentId}`
   );
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
-  const topics: Topic[] = await res.json();
   return topics;
 }
 
