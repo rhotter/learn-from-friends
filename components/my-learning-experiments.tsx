@@ -6,9 +6,8 @@ import { Button } from "@/components/ui/button";
 
 export const MyLearningExperiments: React.FC = () => {
   return (
-    <div className="mt-4">
+    <div>
       <h1>My Learning Experiments</h1>
-      <NewExperiment />
       <div className="flex flex-col gap-2">
         <Experiment
           id={1}
@@ -20,6 +19,7 @@ export const MyLearningExperiments: React.FC = () => {
           name="LXM Learning Experiment"
           date={new Date("2022-08-01")}
         />
+        <NewExperiment />
       </div>
     </div>
   );

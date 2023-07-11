@@ -7,7 +7,7 @@ export const Layout: React.FC<{
   return (
     <div className="">
       <Nav />
-      <div className="p-4">{children}</div>
+      <div className="px-4 pt-8 max-w-lg mx-auto">{children}</div>
     </div>
   );
 };

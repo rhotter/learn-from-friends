@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Layout } from "@/components/basic-layout";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -31,7 +32,7 @@ const formSchema = z.object({
 export default function Page({ params }: { params: { id: number } }) {
   return (
     <Layout>
-      <div className="max-w-md mx-auto mt-8">
+      <div className="mx-auto">
         <h1>Topic Submission</h1>
         <div className="mb-8 text-slate-500 text-sm">
           <div className="mb-2">Submit a topic to teach for 15 min.</div>
@@ -52,18 +53,46 @@ export default function Page({ params }: { params: { id: number } }) {
 }
 
 function TopicSubmission({ id }: { id: number }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      topic: "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    setIsError(false);
+    try {
+      const res = await fetch("/api/experiment_topics", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          experiment_id: id,
+          name: values.name,
+          topic: values.topic,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+
+      const data = await res.json();
+
+      console.log(data);
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -98,7 +127,7 @@ function TopicSubmission({ id }: { id: number }) {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">{isLoading ? "Submitting..." : "Submit"}</Button>
       </form>
     </Form>
   );
