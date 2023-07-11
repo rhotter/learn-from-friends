@@ -9,8 +9,10 @@ export interface Topic {
   topic: string;
 }
 
-async function getTopics() {
-  const res = await fetch(`http://localhost:3000/api/experiment_topics`);
+async function getTopics(experimentId: number) {
+  const res = await fetch(
+    `http://localhost:3000/api/experiment_topics?experiment_id=${experimentId}`
+  );
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
     throw new Error("Failed to fetch data");
@@ -20,7 +22,7 @@ async function getTopics() {
 }
 
 export default async function Page({ params }: { params: { id: number } }) {
-  const topics = await getTopics();
+  const topics = await getTopics(params.id);
 
   return (
     <Layout>
