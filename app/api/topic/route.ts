@@ -1,4 +1,5 @@
 import { prisma } from "@/utils/prisma";
+import { Stage } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 interface NewTopicInput {
@@ -9,6 +10,22 @@ interface NewTopicInput {
 
 export async function POST(req: Request) {
   const newTopic: NewTopicInput = await req.json();
+
+  // Check if experiment is still taking topic submissions
+  const experiment = await prisma.experiment.findUnique({
+    where: {
+      id: Number(newTopic.experimentId),
+    },
+  });
+
+  if (experiment?.stage !== Stage.SUBMISSIONS) {
+    return NextResponse.json(
+      {
+        error: "Experiment is not accepting topic submissions",
+      },
+      { status: 403 }
+    );
+  }
 
   // Create a new person
   const person = await prisma.person.create({

@@ -13,25 +13,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Stage } from "@prisma/client";
+import { setStage } from "@/utils/setStage";
 
 export const FinalizeTopicsButton = ({
   experimentId,
 }: {
   experimentId: number;
 }) => {
-  const handleFinalizeTopics = () => {
-    // tell the db that the topics are finalized
-    fetch("/api/close-topics", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        experimentId,
-      }),
-    });
-  };
-
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -51,7 +40,9 @@ export const FinalizeTopicsButton = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleFinalizeTopics}>
+          <AlertDialogAction
+            onClick={() => setStage(experimentId, Stage.SELECTIONS)}
+          >
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

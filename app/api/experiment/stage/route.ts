@@ -2,20 +2,21 @@ import { prisma } from "@/utils/prisma";
 import { Stage } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-interface CloseTopicInput {
+interface StageInput {
   experimentId: string;
+  stage: Stage;
 }
 
 export async function POST(req: Request) {
-  const closeTopics: CloseTopicInput = await req.json();
+  const stageInput: StageInput = await req.json();
 
   // update the experiment
   const experiment = await prisma.experiment.update({
     where: {
-      id: Number(closeTopics.experimentId),
+      id: Number(stageInput.experimentId),
     },
     data: {
-      stage: Stage.SELECTIONS,
+      stage: stageInput.stage,
     },
   });
 
