@@ -28,7 +28,7 @@ async function getTopics(experimentId: number) {
 export default async function Page({ params }: { params: { id: number } }) {
   const [topics, stage] = await Promise.all([
     getTopics(params.id),
-    getStage(params.id),
+    getStage(Number(params.id)),
   ]);
 
   const experimentId = params.id;
