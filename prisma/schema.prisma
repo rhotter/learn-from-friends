@@ -7,11 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Stage {
+  SUBMISSIONS
+  SELECTIONS
+}
+
 model Experiment {
   id     Int      @id @default(autoincrement())
   topics Topic[]
   name   String
   people Person[]
+  stage  Stage    @default(SUBMISSIONS)
 }
 
 model Topic {

@@ -1,10 +1,9 @@
 import { Layout } from "@/components/basic-layout";
 import Link from "next/link";
-import { TopicSubmissions } from "../../../components/TopicSubmissions";
-import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
 import { prisma } from "@/utils/prisma";
-import { Person, Topic } from "@prisma/client";
+import { Person, Stage, Topic } from "@prisma/client";
+import { FinalizeTopicsButton } from "@/components/FinalizeTopicsButton";
+import { TopicSubmissions } from "@/components/TopicSubmissions";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;
@@ -23,25 +22,43 @@ async function getTopics(experimentId: number) {
   return topics;
 }
 
+const getStage = async (experimentId: number) => {
+  const experiment = await prisma.experiment.findUnique({
+    where: {
+      id: Number(experimentId),
+    },
+  });
+  return experiment?.stage;
+};
+
 export default async function Page({ params }: { params: { id: number } }) {
-  const topics = await getTopics(params.id);
+  const [topics, stage] = await Promise.all([
+    getTopics(params.id),
+    getStage(params.id),
+  ]);
 
   return (
     <Layout>
       <h1>Experiment {params.id}</h1>
-      <TopicSubmissionLink id={params.id} />
+      {stage == Stage.SELECTIONS && (
+        <div className="my-4">
+          It's now time for people to select the topics they want to learn!
+        </div>
+      )}
+      <TopicLink id={params.id} stage={stage} />
+
       <TopicSubmissions topics={topics} />
-      <Button>
-        Finalize topics
-        <ChevronRight className="ml-2 h-4 w-4" />
-      </Button>
+      <FinalizeTopicsButton experimentId={params.id} />
     </Layout>
   );
 }
 
-const TopicSubmissionLink = ({ id }: { id: number }) => (
+const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => (
   <div>
-    Topic submission link:{" "}
+    {stage == Stage.SELECTIONS
+      ? "Topic selection link (same as before)"
+      : "Topic submission link"}
+    :{" "}
     <Link
       href={`/experiments/${id}/topic`}
       className="text-slate-600 hover:text-slate-500 font-semibold"
