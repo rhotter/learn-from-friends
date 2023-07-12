@@ -1,3 +1,4 @@
+import { TopicWithTeacher } from "@/app/experiments/[id]/page";
 import {
   Table,
   TableBody,
@@ -6,10 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Topic } from "../app/experiments/[id]/page";
 
 interface TopicSubmissionsProps {
-  topics: Topic[];
+  topics: TopicWithTeacher[];
 }
 
 export function TopicSubmissions({ topics }: TopicSubmissionsProps) {
@@ -25,8 +25,10 @@ export function TopicSubmissions({ topics }: TopicSubmissionsProps) {
         <TableBody>
           {topics.map((topic, index) => (
             <TableRow key={index}>
-              <TableCell className="font-medium">{topic.name}</TableCell>
-              <TableCell>{topic.topic}</TableCell>
+              <TableCell className="font-medium">
+                {topic.teacher.name}
+              </TableCell>
+              <TableCell>{topic.name}</TableCell>
             </TableRow>
           ))}
         </TableBody>

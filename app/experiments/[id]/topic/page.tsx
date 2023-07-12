@@ -19,7 +19,6 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Layout } from "@/components/basic-layout";
 import { useState } from "react";
-import { fetchApp } from "@/lib/fetchApp";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -70,14 +69,14 @@ function TopicSubmission({ id }: { id: number }) {
     setIsLoading(true);
     setIsError(false);
     try {
-      const data = await fetchApp("/api/experiment_topics", {
+      const data = await fetch("/api/topic", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          experiment_id: id,
-          name: values.name,
+          experimentId: id,
+          personName: values.name,
           topic: values.topic,
         }),
       });

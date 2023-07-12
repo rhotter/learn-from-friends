@@ -3,17 +3,23 @@ import Link from "next/link";
 import { TopicSubmissions } from "../../../components/TopicSubmissions";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
-import { fetchApp } from "@/lib/fetchApp";
+import { prisma } from "@/utils/prisma";
+import { Person, Topic } from "@prisma/client";
 
-export interface Topic {
-  name: string;
-  topic: string;
+export interface TopicWithTeacher extends Topic {
+  teacher: Person;
 }
 
 async function getTopics(experimentId: number) {
-  const topics: Topic[] = await fetchApp(
-    `/api/experiment_topics?experiment_id=${experimentId}`
-  );
+  // query
+  const topics = await prisma.topic.findMany({
+    where: {
+      experimentId: Number(experimentId),
+    },
+    include: {
+      teacher: true,
+    },
+  });
   return topics;
 }
 
