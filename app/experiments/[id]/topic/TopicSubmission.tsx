@@ -38,15 +38,11 @@ const formSchema = z.object({
     message: "Name must be at least 1 character.",
   }),
   topic: z.string().min(2, {
-    message: "Topic must be at least 1 character.",
+    message: "Topic must be at least 2 characters.",
   }),
 });
 
-export function TopicSubmissionForm({
-  experimentId,
-}: {
-  experimentId: number;
-}) {
+function TopicSubmissionForm({ experimentId }: { experimentId: number }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
