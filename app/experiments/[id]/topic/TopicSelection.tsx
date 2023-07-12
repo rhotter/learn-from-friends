@@ -43,7 +43,11 @@ export const TopicSelection = async ({
           Now it's time to pick what topics you want to learn!
         </div>
       </div>
-      <TopicSelectionForm names={names} topics={topics} />
+      <TopicSelectionForm
+        names={names}
+        topics={topics}
+        experimentId={experimentId}
+      />
     </div>
   );
 };

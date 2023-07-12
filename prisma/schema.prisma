@@ -13,12 +13,12 @@ enum Stage {
 }
 
 model Experiment {
-  id         Int          @id @default(autoincrement())
-  topics     Topic[]
-  name       String
-  people     Person[]
-  stage      Stage        @default(SUBMISSIONS)
-  Preference Preference[]
+  id          Int          @id @default(autoincrement())
+  topics      Topic[]
+  name        String
+  people      Person[]
+  stage       Stage        @default(SUBMISSIONS)
+  preferences Preference[]
 }
 
 model Topic {
@@ -30,7 +30,7 @@ model Topic {
 
   name          String
   submittedTime DateTime     @default(now())
-  Preference    Preference[]
+  preferences   Preference[]
 }
 
 model Person {
@@ -39,7 +39,7 @@ model Person {
   topics       Topic[]
   experiment   Experiment[]
   experimentId Int
-  Preference   Preference[]
+  preferences  Preference[]
 }
 
 model Preference {
@@ -51,4 +51,6 @@ model Preference {
   experiment   Experiment @relation(fields: [experimentId], references: [id])
   experimentId Int
   rank         Int
+
+  @@unique([personId, topicId, experimentId])
 }

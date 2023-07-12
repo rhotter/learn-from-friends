@@ -30,9 +30,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
+import { SubmitButton } from "./SubmitButton";
 
 const FormSchema = z.object({
-  nameId: z.number({
+  personId: z.number({
     required_error: "Please select your name.",
   }),
   firstChoice: z.number({
@@ -49,16 +50,37 @@ const FormSchema = z.object({
 export function TopicSelectionForm({
   names,
   topics,
+  experimentId,
 }: {
   names: { label: string; value: any }[];
   topics: { label: string; value: any }[];
+  experimentId: number;
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsLoading(true);
+    setIsError(false);
+
+    try {
+      const ret = await fetch("/api/preferences", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data, experimentId }),
+      });
+      console.log(ret);
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -67,7 +89,7 @@ export function TopicSelectionForm({
         <ComboBoxFormField
           form={form}
           items={names}
-          formFieldName="nameId"
+          formFieldName="personId"
           label="Name"
         />
         <ComboBoxFormField
@@ -90,8 +112,7 @@ export function TopicSelectionForm({
           formFieldName="thirdChoice"
           label="Third Choice"
         />
-
-        <Button type="submit">Submit</Button>
+        <SubmitButton isLoading={isLoading} isError={isError} />
       </form>
     </Form>
   );

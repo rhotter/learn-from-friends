@@ -14,7 +14,8 @@ interface TopicSubmissionsProps {
 
 export function TopicSubmissions({ topics }: TopicSubmissionsProps) {
   return (
-    <div className="my-4">
+    <div className="my-8">
+      <h2 className="font-semibold mb-4">Topic Submissions</h2>
       <Table>
         <TableHeader>
           <TableRow>

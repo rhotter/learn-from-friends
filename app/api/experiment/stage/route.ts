@@ -20,5 +20,14 @@ export async function POST(req: Request) {
     },
   });
 
+  if (stageInput.stage === Stage.SUBMISSIONS) {
+    // whipe out all the preferences for this experiment
+    await prisma.preference.deleteMany({
+      where: {
+        experimentId: Number(stageInput.experimentId),
+      },
+    });
+  }
+
   return NextResponse.json(experiment);
 }

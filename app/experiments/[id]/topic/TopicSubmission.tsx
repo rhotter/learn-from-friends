@@ -3,7 +3,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { SubmitButton } from "./SubmitButton";
 
 export const TopicSubmission = ({ experimentId }: { experimentId: number }) => (
   <div className="mx-auto">
@@ -111,7 +111,7 @@ function TopicSubmissionForm({ experimentId }: { experimentId: number }) {
             </FormItem>
           )}
         />
-        <Button type="submit">{isLoading ? "Submitting..." : "Submit"}</Button>
+        <SubmitButton isLoading={isLoading} isError={isError} />
       </form>
     </Form>
   );
