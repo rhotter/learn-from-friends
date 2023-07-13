@@ -9,61 +9,34 @@ import { TopicSubmissions } from "@/components/TopicSubmissions";
 import { FormGroupsButton } from "./FormGroupsButton";
 
 import { FormGroups } from "./FormGroups";
+import { getPeoplePreferences } from "@/utils/getPeoplePreferences";
+import { getStage } from "@/utils/getStage";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;
 }
 
-async function getPeoplePreferences(experimentId: number) {
-  const peoplePreferences = await prisma.person.findMany({
-    where: {
-      experimentId,
-    },
-    include: {
-      preferences: {
-        include: {
-          topic: {
-            include: {
-              teacher: true,
-            },
-          },
-        },
-      },
-    },
-  });
-  return peoplePreferences;
-}
+// async function getTopics(experimentId: number) {
+//   // query
+//   const topics = await prisma.topic.findMany({
+//     where: {
+//       experimentId: experimentId,
+//     },
+//     include: {
+//       teacher: true,
+//     },
+//   });
+//   return topics;
+// }
 
-async function getTopics(experimentId: number) {
-  // query
-  const topics = await prisma.topic.findMany({
-    where: {
-      experimentId: experimentId,
-    },
-    include: {
-      teacher: true,
-    },
-  });
-  return topics;
-}
-
-async function getExperimentName(experimentId: number) {
-  const experiment = await prisma.experiment.findUnique({
-    where: {
-      id: experimentId,
-    },
-  });
-  return experiment?.name;
-}
-
-const getStage = async (experimentId: number) => {
-  const experiment = await prisma.experiment.findUnique({
-    where: {
-      id: experimentId,
-    },
-  });
-  return experiment?.stage;
-};
+// async function getExperimentName(experimentId: number) {
+//   const experiment = await prisma.experiment.findUnique({
+//     where: {
+//       id: experimentId,
+//     },
+//   });
+//   return experiment?.name;
+// }
 
 export default async function Page({ params }: { params: { id: number } }) {
   const experimentId = Number(params.id);
@@ -74,10 +47,11 @@ export default async function Page({ params }: { params: { id: number } }) {
   //   getExperimentName(experimentId),
   //   getPeoplePreferences(experimentId),
   // ]);
-  const topics = await getTopics(experimentId);
+  // const topics = await getTopics(experimentId);
   const stage = await getStage(experimentId);
-  const experimentName = await getExperimentName(experimentId);
+  // const experimentName = await getExperimentName(experimentId);
   const peoplePreferences = await getPeoplePreferences(experimentId);
+  const experimentName = "hi";
 
   return (
     <Layout>
