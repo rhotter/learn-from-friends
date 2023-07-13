@@ -50,7 +50,7 @@ export default async function Page({ params }: { params: { id: number } }) {
   return (
     <Layout>
       <h1>{experimentName} Experiment</h1>
-      {stage == Stage.SELECTIONS && (
+      {/* {stage == Stage.SELECTIONS && (
         <div className="my-4">
           It's now time for people to select the topics they want to learn!
         </div>
@@ -66,7 +66,7 @@ export default async function Page({ params }: { params: { id: number } }) {
       {stage == Stage.SELECTIONS && (
         <TopicPreferences peoplePreferences={peoplePreferences} />
       )}
-      <TopicSubmissions topics={topics} />
+      <TopicSubmissions topics={topics} /> */}
     </Layout>
   );
 }
