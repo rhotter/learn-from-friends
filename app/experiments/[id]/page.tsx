@@ -4,15 +4,34 @@ import { prisma } from "@/utils/prisma";
 import { Person, Stage, Topic } from "@prisma/client";
 import { FinalizeTopicsButton } from "@/components/FinalizeTopicsButton";
 import { TopicPreferences } from "@/components/TopicPreferences";
-import { getStage } from "@/utils/getStage";
 import { UndoStageButton } from "./UndoStageButton";
 import { TopicSubmissions } from "@/components/TopicSubmissions";
 import { FormGroupsButton } from "./FormGroupsButton";
-import { getPeoplePreferences } from "@/utils/getPeoplePreferences";
+
 import { FormGroups } from "./FormGroups";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;
+}
+
+async function getPeoplePreferences(experimentId: number) {
+  const peoplePreferences = await prisma.person.findMany({
+    where: {
+      experimentId,
+    },
+    include: {
+      preferences: {
+        include: {
+          topic: {
+            include: {
+              teacher: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  return peoplePreferences;
 }
 
 async function getTopics(experimentId: number) {
@@ -36,6 +55,15 @@ async function getExperimentName(experimentId: number) {
   });
   return experiment?.name;
 }
+
+const getStage = async (experimentId: number) => {
+  const experiment = await prisma.experiment.findUnique({
+    where: {
+      id: experimentId,
+    },
+  });
+  return experiment?.stage;
+};
 
 export default async function Page({ params }: { params: { id: number } }) {
   const experimentId = Number(params.id);
