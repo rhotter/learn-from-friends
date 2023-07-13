@@ -44,6 +44,7 @@ export const FormGroups = ({
             setBlocks={setBlocks}
             setStatus={setStatus}
             disabled={!isAllPeoplePreferencesFilled}
+            peoplePreferences={peoplePreferences}
           />
           <UndoStageButton eventId={eventId} />
         </>

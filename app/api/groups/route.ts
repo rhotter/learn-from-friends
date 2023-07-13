@@ -14,6 +14,11 @@ export async function POST(req: Request) {
   const input = await req.json();
   const eventId = Number(input.eventId);
 
+  // input optionally has an excludePresenterId field
+  const excludePresenterId = input.excludePresenterId
+    ? Number(input.excludePresenterId)
+    : null;
+
   const peoplePreferences = await getPeoplePreferences(eventId);
   const peopleWithTopics = await prisma.person.findMany({
     where: {
@@ -38,7 +43,7 @@ export async function POST(req: Request) {
     n_blocks: 2,
     weights: [1, 2, 3],
     low_priority_weight: 10,
-    exclude_presenters: [],
+    exclude_presenters: excludePresenterId ? [excludePresenterId] : [],
     first_time_people: [],
   };
 

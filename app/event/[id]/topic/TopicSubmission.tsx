@@ -111,7 +111,7 @@ function TopicSubmissionForm({ eventId }: { eventId: number }) {
             </FormItem>
           )}
         />
-        <SubmitButton isLoading={isLoading} isError={isError} />
+        <SubmitButton isLoading={isLoading} />
       </form>
     </Form>
   );
