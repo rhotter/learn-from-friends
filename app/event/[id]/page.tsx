@@ -10,6 +10,7 @@ import { getStage } from "@/utils/getStage";
 import { TopicSubmissions } from "@/components/TopicSubmissions";
 import { getPeoplePreferences } from "@/utils/getPeoplePreferences";
 import { FormGroups } from "./FormGroups";
+import { QRCodeSVG } from "qrcode.react";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;
@@ -72,7 +73,7 @@ export default async function Page({ params }: { params: { id: number } }) {
 }
 
 const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => (
-  <div>
+  <div className="w-full">
     {stage == Stage.SELECTIONS
       ? "Topic selection link (same as before)"
       : "Topic submission link"}
@@ -80,6 +81,9 @@ const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => (
     <Link
       href={`/event/${id}/topic`}
       className="text-slate-600 hover:text-slate-500 font-semibold"
-    >{`exp.dev/${id}/topic`}</Link>
+    >{`https://learnfromfriends.xyz/${id}/topic`}</Link>
+    <div className="flex justify-center mt-4">
+      <QRCodeSVG value={`https://learnfromfriends.xyz/${id}/topic`} />
+    </div>
   </div>
 );
