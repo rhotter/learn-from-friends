@@ -1,5 +1,6 @@
 // submit topics
 "use client";
+import { Loader } from "@/components/Loader";
 import { Button } from "@/components/ui/button";
 
 export const SubmitButton = ({
@@ -8,4 +9,8 @@ export const SubmitButton = ({
 }: {
   isLoading: boolean;
   isError: boolean;
-}) => <Button type="submit">{isLoading ? "Submitting..." : "Submit"}</Button>;
+}) => (
+  <Button type="submit">
+    <Loader isLoading={isLoading} text="Submit" />
+  </Button>
+);

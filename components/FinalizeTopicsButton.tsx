@@ -15,12 +15,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Stage } from "@prisma/client";
 import { setStage } from "@/utils/setStage";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Loader } from "./Loader";
 
 export const FinalizeTopicsButton = ({
   experimentId,
 }: {
   experimentId: number;
 }) => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -41,9 +46,14 @@ export const FinalizeTopicsButton = ({
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => setStage(experimentId, Stage.SELECTIONS)}
+            onClick={async (e) => {
+              setIsLoading(true);
+              e.preventDefault();
+              const stage = await setStage(experimentId, Stage.SELECTIONS);
+              router.refresh();
+            }}
           >
-            Continue
+            <Loader isLoading={isLoading} text="Finalize topics" />
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

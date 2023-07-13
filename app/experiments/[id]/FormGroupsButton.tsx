@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { TeachingBlock } from "./FormGroups";
+import { Loader } from "@/components/Loader";
 
 export const FormGroupsButton = ({
   experimentId,
@@ -37,7 +38,7 @@ export const FormGroupsButton = ({
 
   return (
     <Button onClick={handleOnClick}>
-      {isLoading ? "Forming groups..." : "Form groups"}
+      <Loader isLoading={isLoading} text="Form groups" />
     </Button>
   );
 };

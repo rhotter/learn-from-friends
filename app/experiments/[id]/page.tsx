@@ -1,3 +1,5 @@
+// page.tsx
+
 import { Layout } from "@/components/basic-layout";
 import Link from "next/link";
 import { prisma } from "@/utils/prisma";
@@ -5,9 +7,7 @@ import { Person, Stage, Topic } from "@prisma/client";
 import { FinalizeTopicsButton } from "@/components/FinalizeTopicsButton";
 import { TopicPreferences } from "@/components/TopicPreferences";
 import { getStage } from "@/utils/getStage";
-import { UndoStageButton } from "./UndoStageButton";
 import { TopicSubmissions } from "@/components/TopicSubmissions";
-import { FormGroupsButton } from "./FormGroupsButton";
 import { getPeoplePreferences } from "@/utils/getPeoplePreferences";
 import { FormGroups } from "./FormGroups";
 

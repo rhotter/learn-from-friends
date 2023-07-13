@@ -13,22 +13,28 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
+import { Loader } from "./Loader";
 
 export const NewExperiment = () => {
   const [experimentName, setExperimentName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const handleOnSave = () => {
+  const router = useRouter();
+
+  const handleOnSave = async () => {
     setIsLoading(true);
     try {
-      fetch("/api/experiment", {
+      const response = await fetch("/api/experiment", {
         method: "POST",
         body: JSON.stringify({ name: experimentName }),
         headers: {
           "Content-Type": "application/json",
         },
       });
+      const newExperiment = await response.json();
+      router.push(`/experiments/${newExperiment.id}`);
     } catch (error) {
       console.error(error);
     } finally {
@@ -64,7 +70,7 @@ export const NewExperiment = () => {
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleOnSave}>
-            {isLoading ? "Saving..." : "Save changes"}
+            <Loader isLoading={isLoading} text="New" />
           </Button>
         </DialogFooter>
       </DialogContent>
