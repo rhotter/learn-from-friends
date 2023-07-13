@@ -1,5 +1,7 @@
 # Learn from friends
 
+See here for the [repo of the python API that forms the groups](https://github.com/rhotter/learn-from-friends-api).
+
 ## Getting Started
 
 First, install the dependencies:
