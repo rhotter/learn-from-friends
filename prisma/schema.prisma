@@ -19,6 +19,7 @@ model Experiment {
   people      Person[]
   stage       Stage        @default(SUBMISSIONS)
   preferences Preference[]
+  date        DateTime     @default(now())
 }
 
 model Topic {
