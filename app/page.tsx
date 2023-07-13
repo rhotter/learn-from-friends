@@ -1,11 +1,11 @@
 import { Layout } from "@/components/basic-layout";
-import { MyLearningExperiments } from "@/components/MyLearningExperiments";
+import { MyLearningEvent } from "@/components/MyLearningEvent";
 
 export default function Home() {
   return (
     <main>
       <Layout>
-        <MyLearningExperiments />
+        <MyLearningEvent />
       </Layout>
     </main>
   );

@@ -3,17 +3,17 @@ import { Stage } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 interface StageInput {
-  experimentId: string;
+  eventId: string;
   stage: Stage;
 }
 
 export async function POST(req: Request) {
   const stageInput: StageInput = await req.json();
 
-  // update the experiment
-  const experiment = await prisma.experiment.update({
+  // update the event
+  const event = await prisma.event.update({
     where: {
-      id: Number(stageInput.experimentId),
+      id: Number(stageInput.eventId),
     },
     data: {
       stage: stageInput.stage,
@@ -21,13 +21,13 @@ export async function POST(req: Request) {
   });
 
   if (stageInput.stage === Stage.SUBMISSIONS) {
-    // whipe out all the preferences for this experiment
+    // whipe out all the preferences for this event
     await prisma.preference.deleteMany({
       where: {
-        experimentId: Number(stageInput.experimentId),
+        eventId: Number(stageInput.eventId),
       },
     });
   }
 
-  return NextResponse.json(experiment);
+  return NextResponse.json(event);
 }

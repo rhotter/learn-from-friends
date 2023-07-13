@@ -1,4 +1,4 @@
-import { TopicWithTeacher } from "@/app/experiments/[id]/page";
+import { TopicWithTeacher } from "@/app/event/[id]/page";
 import {
   Table,
   TableBody,

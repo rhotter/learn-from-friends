@@ -15,11 +15,11 @@ export interface TopicWithTeacher extends Topic {
   teacher: Person;
 }
 
-async function getTopics(experimentId: number) {
+async function getTopics(eventId: number) {
   // query
   const topics = await prisma.topic.findMany({
     where: {
-      experimentId: experimentId,
+      eventId: eventId,
     },
     include: {
       teacher: true,
@@ -28,39 +28,39 @@ async function getTopics(experimentId: number) {
   return topics;
 }
 
-async function getExperimentName(experimentId: number) {
-  const experiment = await prisma.experiment.findUnique({
+async function getExperimentName(eventId: number) {
+  const event = await prisma.event.findUnique({
     where: {
-      id: experimentId,
+      id: eventId,
     },
   });
-  return experiment?.name;
+  return event?.name;
 }
 
 export default async function Page({ params }: { params: { id: number } }) {
-  const experimentId = Number(params.id);
+  const eventId = Number(params.id);
 
-  const [topics, stage, experimentName, peoplePreferences] = await Promise.all([
-    getTopics(experimentId),
-    getStage(experimentId),
-    getExperimentName(experimentId),
-    getPeoplePreferences(experimentId),
+  const [topics, stage, eventName, peoplePreferences] = await Promise.all([
+    getTopics(eventId),
+    getStage(eventId),
+    getExperimentName(eventId),
+    getPeoplePreferences(eventId),
   ]);
 
   return (
     <Layout>
-      <h1>{experimentName} Experiment</h1>
+      <h1 className="font-serif">{eventName} Event</h1>
       {stage == Stage.SELECTIONS && (
         <div className="my-4">
           It's now time for people to select the topics they want to learn!
         </div>
       )}
-      <TopicLink id={experimentId} stage={stage} />
+      <TopicLink id={eventId} stage={stage} />
       <div className="my-8">
         {stage == Stage.SELECTIONS ? (
-          <FormGroups experimentId={experimentId} />
+          <FormGroups eventId={eventId} peoplePreferences={peoplePreferences} />
         ) : (
-          <FinalizeTopicsButton experimentId={experimentId} />
+          <FinalizeTopicsButton eventId={eventId} />
         )}
       </div>
       {stage == Stage.SELECTIONS && (
@@ -78,7 +78,7 @@ const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => (
       : "Topic submission link"}
     :{" "}
     <Link
-      href={`/experiments/${id}/topic`}
+      href={`/event/${id}/topic`}
       className="text-slate-600 hover:text-slate-500 font-semibold"
     >{`exp.dev/${id}/topic`}</Link>
   </div>

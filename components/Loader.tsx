@@ -1,11 +1,12 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
+import { ReactNode } from "react";
 
 export const Loader = ({
   isLoading,
-  text,
+  children,
 }: {
   isLoading: boolean;
-  text: string;
-}) => (isLoading ? <Loader2 className="animate-spin" /> : <span>text</span>);
+  children: ReactNode;
+}) => (isLoading ? <Loader2 className="animate-spin" /> : <>{children}</>);

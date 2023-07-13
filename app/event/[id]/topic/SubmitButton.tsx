@@ -11,6 +11,9 @@ export const SubmitButton = ({
   isError: boolean;
 }) => (
   <Button type="submit">
-    <Loader isLoading={isLoading} text="Submit" />
+    <Loader isLoading={isLoading}>
+      Submit
+      {isError && <span className="ml-2 text-red-500">Error</span>}
+    </Loader>
   </Button>
 );

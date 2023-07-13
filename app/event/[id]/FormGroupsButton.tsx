@@ -4,15 +4,18 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { TeachingBlock } from "./FormGroups";
 import { Loader } from "@/components/Loader";
+import { ChevronRight } from "lucide-react";
 
 export const FormGroupsButton = ({
-  experimentId,
+  eventId,
   setBlocks,
   setStatus,
+  disabled,
 }: {
-  experimentId: number;
+  eventId: number;
   setBlocks: (blocks: TeachingBlock[]) => void;
   setStatus: (status: string) => void;
+  disabled?: boolean;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +24,7 @@ export const FormGroupsButton = ({
     try {
       const result = await fetch(`/api/groups`, {
         method: "POST",
-        body: JSON.stringify({ experimentId }),
+        body: JSON.stringify({ eventId }),
         headers: {
           "Content-Type": "application/json",
         },
@@ -37,8 +40,11 @@ export const FormGroupsButton = ({
   };
 
   return (
-    <Button onClick={handleOnClick}>
-      <Loader isLoading={isLoading} text="Form groups" />
+    <Button onClick={handleOnClick} disabled={disabled}>
+      <Loader isLoading={isLoading}>
+        Form groups
+        <ChevronRight className="ml-2 h-4 w-4" />
+      </Loader>
     </Button>
   );
 };

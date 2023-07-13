@@ -5,6 +5,7 @@ import { UndoStageButton } from "./UndoStageButton";
 import { FormGroupsButton } from "./FormGroupsButton";
 import { Person, Topic } from "@prisma/client";
 import { Groups } from "../Groups";
+import { PersonPreferences } from "@/components/TopicPreferences";
 
 export interface TeachingBlock {
   block: string;
@@ -20,20 +21,31 @@ interface Presentation {
   presenter: PersonWithTopic;
 }
 
-export const FormGroups = ({ experimentId }: { experimentId: number }) => {
+export const FormGroups = ({
+  eventId,
+  peoplePreferences,
+}: {
+  eventId: number;
+  peoplePreferences: PersonPreferences[];
+}) => {
   const [blocks, setBlocks] = useState<TeachingBlock[] | null>(null);
   const [status, setStatus] = useState<string | null>(null);
+
+  const isAllPeoplePreferencesFilled = peoplePreferences.every(
+    (person) => person.preferences.length > 0
+  );
 
   return (
     <>
       {status != "Optimal" && (
         <>
           <FormGroupsButton
-            experimentId={experimentId}
+            eventId={eventId}
             setBlocks={setBlocks}
             setStatus={setStatus}
+            disabled={!isAllPeoplePreferencesFilled}
           />
-          <UndoStageButton experimentId={experimentId} />
+          <UndoStageButton eventId={eventId} />
         </>
       )}
       <Groups blocks={blocks} status={status} />

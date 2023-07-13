@@ -50,11 +50,11 @@ const FormSchema = z.object({
 export function TopicSelectionForm({
   names,
   topics,
-  experimentId,
+  eventId,
 }: {
   names: { label: string; value: any }[];
   topics: { label: string; value: any }[];
-  experimentId: number;
+  eventId: number;
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -73,7 +73,7 @@ export function TopicSelectionForm({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...data, experimentId }),
+        body: JSON.stringify({ ...data, eventId }),
       });
       console.log(ret);
     } catch (error) {

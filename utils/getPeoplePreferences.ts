@@ -1,9 +1,9 @@
 import { prisma } from "@/utils/prisma";
 
-export async function getPeoplePreferences(experimentId: number) {
+export async function getPeoplePreferences(eventId: number) {
   const peoplePreferences = await prisma.person.findMany({
     where: {
-      experimentId,
+      eventId,
     },
     include: {
       preferences: {

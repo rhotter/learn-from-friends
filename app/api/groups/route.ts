@@ -1,4 +1,4 @@
-import { TeachingBlock } from "@/app/experiments/[id]/FormGroups";
+import { TeachingBlock } from "@/app/event/[id]/FormGroups";
 import { getPeoplePreferences } from "@/utils/getPeoplePreferences";
 import { prisma } from "@/utils/prisma";
 import { Person } from "@prisma/client";
@@ -12,12 +12,12 @@ interface Response {
 
 export async function POST(req: Request) {
   const input = await req.json();
-  const experimentId = Number(input.experimentId);
+  const eventId = Number(input.eventId);
 
-  const peoplePreferences = await getPeoplePreferences(experimentId);
+  const peoplePreferences = await getPeoplePreferences(eventId);
   const peopleWithTopics = await prisma.person.findMany({
     where: {
-      experimentId,
+      eventId,
     },
     include: {
       topic: true,

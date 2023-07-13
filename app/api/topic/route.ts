@@ -3,7 +3,7 @@ import { Stage } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 interface NewTopicInput {
-  experimentId: string;
+  eventId: string;
   personName: string;
   topic: string;
 }
@@ -11,17 +11,17 @@ interface NewTopicInput {
 export async function POST(req: Request) {
   const newTopic: NewTopicInput = await req.json();
 
-  // Check if experiment is still taking topic submissions
-  const experiment = await prisma.experiment.findUnique({
+  // Check if event is still taking topic submissions
+  const event = await prisma.event.findUnique({
     where: {
-      id: Number(newTopic.experimentId),
+      id: Number(newTopic.eventId),
     },
   });
 
-  if (experiment?.stage !== Stage.SUBMISSIONS) {
+  if (event?.stage !== Stage.SUBMISSIONS) {
     return NextResponse.json(
       {
-        error: "Experiment is not accepting topic submissions",
+        error: "Event is not accepting topic submissions",
       },
       { status: 403 }
     );
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
   const person = await prisma.person.create({
     data: {
       name: newTopic.personName,
-      experimentId: Number(newTopic.experimentId),
+      eventId: Number(newTopic.eventId),
     },
   });
 
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
   const topic = await prisma.topic.create({
     data: {
       name: newTopic.topic,
-      experimentId: Number(newTopic.experimentId),
+      eventId: Number(newTopic.eventId),
       teacherId: person.id,
     },
   });

@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { SubmitButton } from "./SubmitButton";
 
-export const TopicSubmission = ({ experimentId }: { experimentId: number }) => (
+export const TopicSubmission = ({ eventId }: { eventId: number }) => (
   <div className="mx-auto">
     <h1>Topic Submission</h1>
     <div className="mb-8 text-slate-500 text-sm">
@@ -29,7 +29,7 @@ export const TopicSubmission = ({ experimentId }: { experimentId: number }) => (
         </ul>
       </div>
     </div>
-    <TopicSubmissionForm experimentId={experimentId} />
+    <TopicSubmissionForm eventId={eventId} />
   </div>
 );
 
@@ -42,7 +42,7 @@ const formSchema = z.object({
   }),
 });
 
-function TopicSubmissionForm({ experimentId }: { experimentId: number }) {
+function TopicSubmissionForm({ eventId }: { eventId: number }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -65,7 +65,7 @@ function TopicSubmissionForm({ experimentId }: { experimentId: number }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          experimentId,
+          eventId,
           personName: values.name,
           topic: values.topic,
         }),

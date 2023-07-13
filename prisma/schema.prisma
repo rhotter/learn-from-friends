@@ -12,7 +12,7 @@ enum Stage {
   SELECTIONS
 }
 
-model Experiment {
+model Event {
   id          Int          @id @default(autoincrement())
   topics      Topic[]
   name        String
@@ -26,32 +26,32 @@ model Topic {
   id            Int          @id @default(autoincrement())
   teacher       Person       @relation(fields: [teacherId], references: [id])
   teacherId     Int          @unique
-  experiment    Experiment   @relation(fields: [experimentId], references: [id])
-  experimentId  Int
+  event         Event        @relation(fields: [eventId], references: [id])
+  eventId       Int
   name          String
   submittedTime DateTime     @default(now())
   preferences   Preference[]
 }
 
 model Person {
-  id           Int          @id @default(autoincrement())
-  name         String
-  topic        Topic?
-  topicId      Int?
-  experiment   Experiment[]
-  experimentId Int
-  preferences  Preference[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  topic       Topic?
+  topicId     Int?
+  event       Event[]
+  eventId     Int
+  preferences Preference[]
 }
 
 model Preference {
-  id           Int        @id @default(autoincrement())
-  person       Person     @relation(fields: [personId], references: [id])
-  personId     Int
-  topic        Topic      @relation(fields: [topicId], references: [id])
-  topicId      Int
-  experiment   Experiment @relation(fields: [experimentId], references: [id])
-  experimentId Int
-  rank         Int
+  id       Int    @id @default(autoincrement())
+  person   Person @relation(fields: [personId], references: [id])
+  personId Int
+  topic    Topic  @relation(fields: [topicId], references: [id])
+  topicId  Int
+  event    Event  @relation(fields: [eventId], references: [id])
+  eventId  Int
+  rank     Int
 
-  @@unique([personId, topicId, experimentId])
+  @@unique([personId, rank, eventId])
 }

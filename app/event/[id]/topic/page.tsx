@@ -5,19 +5,19 @@ import { getStage } from "@/utils/getStage";
 import { TopicSelection } from "./TopicSelection";
 
 export default async function Page({ params }: { params: { id: number } }) {
-  const experimentId = Number(params.id);
+  const eventId = Number(params.id);
 
-  const stage = await getStage(experimentId);
+  const stage = await getStage(eventId);
 
   return (
     <Layout>
       {stage == Stage.SELECTIONS ? (
         <>
           {/* @ts-expect-error Server Component */}
-          <TopicSelection experimentId={experimentId} />
+          <TopicSelection eventId={eventId} />
         </>
       ) : (
-        <TopicSubmission experimentId={experimentId} />
+        <TopicSubmission eventId={eventId} />
       )}
     </Layout>
   );

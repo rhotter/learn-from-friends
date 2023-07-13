@@ -2,10 +2,10 @@
 import { TopicSelectionForm } from "./TopicSelectionForm";
 import { prisma } from "@/utils/prisma";
 
-const getNames = async (experimentId: number) => {
+const getNames = async (eventId: number) => {
   const people = await prisma.person.findMany({
     where: {
-      experimentId,
+      eventId,
     },
   });
   return people.map((person) => ({
@@ -14,10 +14,10 @@ const getNames = async (experimentId: number) => {
   }));
 };
 
-const getTopics = async (experimentId: number) => {
+const getTopics = async (eventId: number) => {
   const topics = await prisma.topic.findMany({
     where: {
-      experimentId,
+      eventId,
     },
   });
   return topics.map((topic) => ({
@@ -26,14 +26,10 @@ const getTopics = async (experimentId: number) => {
   }));
 };
 
-export const TopicSelection = async ({
-  experimentId,
-}: {
-  experimentId: number;
-}) => {
+export const TopicSelection = async ({ eventId }: { eventId: number }) => {
   const [names, topics] = await Promise.all([
-    getNames(experimentId),
-    getTopics(experimentId),
+    getNames(eventId),
+    getTopics(eventId),
   ]);
   return (
     <div className="mx-auto">
@@ -43,11 +39,7 @@ export const TopicSelection = async ({
           Now it's time to pick what topics you want to learn!
         </div>
       </div>
-      <TopicSelectionForm
-        names={names}
-        topics={topics}
-        experimentId={experimentId}
-      />
+      <TopicSelectionForm names={names} topics={topics} eventId={eventId} />
     </div>
   );
 };

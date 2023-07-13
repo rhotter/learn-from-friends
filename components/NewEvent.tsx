@@ -16,8 +16,8 @@ import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { Loader } from "./Loader";
 
-export const NewExperiment = () => {
-  const [experimentName, setExperimentName] = useState("");
+export const NewEvent = () => {
+  const [eventName, setEventName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -26,15 +26,15 @@ export const NewExperiment = () => {
   const handleOnSave = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/experiment", {
+      const response = await fetch("/api/event", {
         method: "POST",
-        body: JSON.stringify({ name: experimentName }),
+        body: JSON.stringify({ name: eventName }),
         headers: {
           "Content-Type": "application/json",
         },
       });
-      const newExperiment = await response.json();
-      router.push(`/experiments/${newExperiment.id}`);
+      const newEvent = await response.json();
+      router.push(`/event/${newEvent.id}`);
     } catch (error) {
       console.error(error);
     } finally {
@@ -48,29 +48,29 @@ export const NewExperiment = () => {
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          New Experiment
+          New Event
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>New Experiment</DialogTitle>
+          <DialogTitle>New Event</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right">
-              Experiment Name
+              Event Name
             </Label>
             <Input
               id="name"
-              value={experimentName}
+              value={eventName}
               className="col-span-3"
-              onChange={(e) => setExperimentName(e.target.value)}
+              onChange={(e) => setEventName(e.target.value)}
             />
           </div>
         </div>
         <DialogFooter>
           <Button type="submit" onClick={handleOnSave}>
-            <Loader isLoading={isLoading} text="New" />
+            <Loader isLoading={isLoading}>New</Loader>
           </Button>
         </DialogFooter>
       </DialogContent>

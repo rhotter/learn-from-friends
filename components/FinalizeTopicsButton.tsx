@@ -19,11 +19,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader } from "./Loader";
 
-export const FinalizeTopicsButton = ({
-  experimentId,
-}: {
-  experimentId: number;
-}) => {
+export const FinalizeTopicsButton = ({ eventId }: { eventId: number }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   return (
@@ -49,11 +45,11 @@ export const FinalizeTopicsButton = ({
             onClick={async (e) => {
               setIsLoading(true);
               e.preventDefault();
-              const stage = await setStage(experimentId, Stage.SELECTIONS);
+              const stage = await setStage(eventId, Stage.SELECTIONS);
               router.refresh();
             }}
           >
-            <Loader isLoading={isLoading} text="Finalize topics" />
+            <Loader isLoading={isLoading}>Finalize topics</Loader>
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
