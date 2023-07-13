@@ -68,12 +68,16 @@ const getStage = async (experimentId: number) => {
 export default async function Page({ params }: { params: { id: number } }) {
   const experimentId = Number(params.id);
 
-  const [topics, stage, experimentName, peoplePreferences] = await Promise.all([
-    getTopics(experimentId),
-    getStage(experimentId),
-    getExperimentName(experimentId),
-    getPeoplePreferences(experimentId),
-  ]);
+  // const [topics, stage, experimentName, peoplePreferences] = await Promise.all([
+  //   getTopics(experimentId),
+  //   getStage(experimentId),
+  //   getExperimentName(experimentId),
+  //   getPeoplePreferences(experimentId),
+  // ]);
+  const topics = await getTopics(experimentId);
+  const stage = await getStage(experimentId);
+  const experimentName = await getExperimentName(experimentId);
+  const peoplePreferences = await getPeoplePreferences(experimentId);
 
   return (
     <Layout>
