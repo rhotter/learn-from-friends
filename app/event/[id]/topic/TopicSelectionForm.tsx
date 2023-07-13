@@ -29,23 +29,44 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitButton } from "./SubmitButton";
+import { Person } from "@prisma/client";
 
-const FormSchema = z.object({
-  personId: z.number({
-    required_error: "Please select your name.",
-  }),
-  firstChoice: z.number({
-    required_error: "Please select your first choice topic.",
-  }),
-  secondChoice: z.number({
-    required_error: "Please select your second choice topic.",
-  }),
-  thirdChoice: z.number({
-    required_error: "Please select your third choice topic.",
-  }),
-});
+const FormSchema = z
+  .object({
+    personId: z.number({
+      required_error: "Please select your name.",
+    }),
+    firstChoice: z.number({
+      required_error: "Please select your first choice topic.",
+    }),
+    secondChoice: z.number({
+      required_error: "Please select your second choice topic.",
+    }),
+    thirdChoice: z.number({
+      required_error: "Please select your third choice topic.",
+    }),
+  })
+  .refine(
+    (data) => {
+      // if no data yet, don't validate
+      if (!data.firstChoice || !data.secondChoice || !data.thirdChoice) {
+        return true;
+      }
+
+      // Check if first, second, and third choice are different
+      return (
+        data.firstChoice !== data.secondChoice &&
+        data.firstChoice !== data.thirdChoice &&
+        data.secondChoice !== data.thirdChoice
+      );
+    },
+    {
+      // If the validation fails, this error message will be returned
+      message: "The three choices must be different.",
+    }
+  );
 
 export function TopicSelectionForm({
   names,
@@ -53,11 +74,10 @@ export function TopicSelectionForm({
   eventId,
 }: {
   names: { label: string; value: any }[];
-  topics: { label: string; value: any }[];
+  topics: { label: string; value: any; person: Person }[];
   eventId: number;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -65,7 +85,6 @@ export function TopicSelectionForm({
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
-    setIsError(false);
 
     try {
       const ret = await fetch("/api/preferences", {
@@ -77,11 +96,17 @@ export function TopicSelectionForm({
       });
       console.log(ret);
     } catch (error) {
-      setIsError(true);
     } finally {
       setIsLoading(false);
     }
   }
+
+  const topicsWithoutSelf = topics
+    .filter((topic) => topic.person.id !== form.watch("personId"))
+    .map((topic) => ({
+      ...topic,
+      label: `${topic.label} (${topic.person.name})`,
+    }));
 
   return (
     <Form {...form}>
@@ -94,25 +119,25 @@ export function TopicSelectionForm({
         />
         <ComboBoxFormField
           form={form}
-          items={topics}
+          items={topicsWithoutSelf}
           formFieldName="firstChoice"
           label="First Choice"
         />
 
         <ComboBoxFormField
           form={form}
-          items={topics}
+          items={topicsWithoutSelf}
           formFieldName="secondChoice"
           label="Second Choice"
         />
 
         <ComboBoxFormField
           form={form}
-          items={topics}
+          items={topicsWithoutSelf}
           formFieldName="thirdChoice"
           label="Third Choice"
         />
-        <SubmitButton isLoading={isLoading} isError={isError} />
+        <SubmitButton isLoading={isLoading} />
       </form>
     </Form>
   );
@@ -126,7 +151,7 @@ const ComboBoxFormField = ({
   description,
 }: {
   form: UseFormReturn<z.infer<typeof FormSchema>>;
-  items: { label: string; value: any }[];
+  items: { label: string; value: any; person?: Person }[];
   formFieldName: FieldPath<z.infer<typeof FormSchema>>;
   label: string;
   description?: string;

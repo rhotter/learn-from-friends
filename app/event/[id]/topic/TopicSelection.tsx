@@ -19,10 +19,14 @@ const getTopics = async (eventId: number) => {
     where: {
       eventId,
     },
+    include: {
+      teacher: true,
+    },
   });
   return topics.map((topic) => ({
     label: topic.name,
     value: topic.id,
+    person: topic.teacher,
   }));
 };
 

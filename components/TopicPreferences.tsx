@@ -47,7 +47,7 @@ export function TopicPreferences({
                   <TableCell>
                     {topic.topic.name}{" "}
                     <span className="text-slate-400">
-                      by {topic.topic.teacher.name}
+                      ({topic.topic.teacher.name})
                     </span>
                   </TableCell>
                 ))}
