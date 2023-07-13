@@ -6,8 +6,10 @@ import { FinalizeTopicsButton } from "@/components/FinalizeTopicsButton";
 import { TopicPreferences } from "@/components/TopicPreferences";
 import { getStage } from "@/utils/getStage";
 import { UndoStageButton } from "./UndoStageButton";
-import { Button } from "@/components/ui/button";
 import { TopicSubmissions } from "@/components/TopicSubmissions";
+import { FormGroupsButton } from "./FormGroupsButton";
+import { getPeoplePreferences } from "@/utils/getPeoplePreferences";
+import { FormGroups } from "./FormGroups";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;
@@ -35,26 +37,6 @@ async function getExperimentName(experimentId: number) {
   return experiment?.name;
 }
 
-async function getPeoplePreferences(experimentId: number) {
-  const peoplePreferences = await prisma.person.findMany({
-    where: {
-      experimentId,
-    },
-    include: {
-      preferences: {
-        include: {
-          topic: {
-            include: {
-              teacher: true,
-            },
-          },
-        },
-      },
-    },
-  });
-  return peoplePreferences;
-}
-
 export default async function Page({ params }: { params: { id: number } }) {
   const experimentId = Number(params.id);
 
@@ -76,23 +58,18 @@ export default async function Page({ params }: { params: { id: number } }) {
       <TopicLink id={experimentId} stage={stage} />
       <div className="my-8">
         {stage == Stage.SELECTIONS ? (
-          <>
-            <FormTeamsButton experimentId={experimentId} />
-            <UndoStageButton experimentId={experimentId} />
-          </>
+          <FormGroups experimentId={experimentId} />
         ) : (
           <FinalizeTopicsButton experimentId={experimentId} />
         )}
       </div>
+      {stage == Stage.SELECTIONS && (
+        <TopicPreferences peoplePreferences={peoplePreferences} />
+      )}
       <TopicSubmissions topics={topics} />
-      <TopicPreferences peoplePreferences={peoplePreferences} />
     </Layout>
   );
 }
-
-const FormTeamsButton = ({ experimentId }: { experimentId: number }) => (
-  <Button>Form teams</Button>
-);
 
 const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => (
   <div>

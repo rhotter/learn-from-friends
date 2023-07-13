@@ -1,6 +1,5 @@
 "use client";
 import { Stage } from "@prisma/client";
-import { Button } from "@/components/ui/button";
 import { setStage } from "@/utils/setStage";
 
 export const UndoStageButton = ({ experimentId }: { experimentId: number }) => {

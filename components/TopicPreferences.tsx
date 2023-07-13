@@ -14,17 +14,9 @@ interface PreferenceWithTopic extends Preference {
   topic: TopicWithTeacher;
 }
 
-interface PersonPreferences extends Person {
+export interface PersonPreferences extends Person {
   preferences: PreferenceWithTopic[];
 }
-
-const getTopicOfRank = (preferences: PreferenceWithTopic[], rank: number) => {
-  const preference = preferences.find((preference) => preference.rank == rank);
-  if (preference) {
-    return topicToString(preference.topic);
-  }
-  return "";
-};
 
 export function TopicPreferences({
   peoplePreferences,
@@ -44,14 +36,24 @@ export function TopicPreferences({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {peoplePreferences.map((person, index) => (
-            <TableRow key={index}>
-              <TableCell className="font-medium">{person.name}</TableCell>
-              <TableCell>{getTopicOfRank(person.preferences, 1)}</TableCell>
-              <TableCell>{getTopicOfRank(person.preferences, 2)}</TableCell>
-              <TableCell>{getTopicOfRank(person.preferences, 3)}</TableCell>
-            </TableRow>
-          ))}
+          {peoplePreferences.map((person, index) => {
+            const topicsRanked = person.preferences.sort(
+              (a, b) => a.rank - b.rank
+            );
+            return (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{person.name}</TableCell>
+                {topicsRanked.map((topic) => (
+                  <TableCell>
+                    {topic.topic.name}{" "}
+                    <span className="text-slate-400">
+                      by {topic.topic.teacher.name}
+                    </span>
+                  </TableCell>
+                ))}
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>
