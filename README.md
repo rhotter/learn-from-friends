@@ -1,7 +1,5 @@
 # Learn from friends
 
-## Introduction
-
 ## Getting Started
 
 First, install the dependencies:
