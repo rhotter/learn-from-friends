@@ -1,5 +1,7 @@
 # Learn from friends
 
+Run your own learn from friends event! 
+
 See here for the [repo of the python API that forms the groups](https://github.com/rhotter/learn-from-friends-api).
 
 ## Getting Started
