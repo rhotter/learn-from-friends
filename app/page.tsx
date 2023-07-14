@@ -6,6 +6,8 @@ import { prisma } from "@/utils/prisma";
 import { NewEvent } from "@/components/NewEvent";
 import { Event } from "@prisma/client";
 
+export const revalidate = 0; // dynamic page
+
 export default async function Page() {
   const events = await prisma.event.findMany({
     orderBy: { date: "desc" },
