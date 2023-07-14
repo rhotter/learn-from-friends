@@ -4,6 +4,8 @@ import { TopicSubmission } from "./TopicSubmission";
 import { getStage } from "@/utils/getStage";
 import { TopicSelection } from "./TopicSelection";
 
+export const revalidate = 0; // dynamic page
+
 export default async function Page({ params }: { params: { id: number } }) {
   const eventId = Number(params.id);
 
