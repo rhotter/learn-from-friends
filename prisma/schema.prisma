@@ -38,7 +38,7 @@ model Person {
   name        String
   topic       Topic?
   topicId     Int?
-  event       Event[]
+  event       Event        @relation(fields: [eventId], references: [id])
   eventId     Int
   preferences Preference[]
 }

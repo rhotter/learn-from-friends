@@ -6,9 +6,7 @@ import { prisma } from "@/utils/prisma";
 import { Person, Stage, Topic } from "@prisma/client";
 import { FinalizeTopicsButton } from "@/components/FinalizeTopicsButton";
 import { TopicPreferences } from "@/components/TopicPreferences";
-import { getStage } from "@/utils/getStage";
 import { TopicSubmissions } from "@/components/TopicSubmissions";
-import { getPeoplePreferences } from "@/utils/getPeoplePreferences";
 import { FormGroups } from "./FormGroups";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -16,37 +14,47 @@ export interface TopicWithTeacher extends Topic {
   teacher: Person;
 }
 
-async function getTopics(eventId: number) {
-  // query
-  const topics = await prisma.topic.findMany({
-    where: {
-      eventId: eventId,
-    },
-    include: {
-      teacher: true,
-    },
-  });
-  return topics;
-}
-
-async function getExperimentName(eventId: number) {
+async function getData(eventId: number) {
   const event = await prisma.event.findUnique({
     where: {
       id: eventId,
     },
+    include: {
+      topics: {
+        include: {
+          teacher: true,
+        },
+      },
+      people: {
+        include: {
+          preferences: {
+            include: {
+              topic: {
+                include: {
+                  teacher: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
-  return event?.name;
+
+  const topics = event!.topics;
+  const peoplePreferences = event!.people;
+  const stage = event!.stage;
+  const eventName = event!.name;
+  console.log(peoplePreferences);
+  return { topics, stage, eventName, peoplePreferences };
 }
 
 export default async function Page({ params }: { params: { id: number } }) {
   const eventId = Number(params.id);
 
-  const [topics, stage, eventName, peoplePreferences] = await Promise.all([
-    getTopics(eventId),
-    getStage(eventId),
-    getExperimentName(eventId),
-    getPeoplePreferences(eventId),
-  ]);
+  const { topics, stage, eventName, peoplePreferences } = await getData(
+    eventId
+  );
 
   return (
     <Layout>
