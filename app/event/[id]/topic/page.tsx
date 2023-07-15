@@ -1,4 +1,3 @@
-import { Layout } from "@/components/basic-layout";
 import { Stage } from "@prisma/client";
 import { TopicSubmission } from "./TopicSubmission";
 import { getStage } from "@/utils/getStage";
@@ -12,7 +11,7 @@ export default async function Page({ params }: { params: { id: any } }) {
   const stage = await getStage(eventId);
 
   return (
-    <Layout>
+    <div>
       {stage == Stage.SELECTIONS ? (
         <>
           {/* @ts-expect-error Server Component */}
@@ -21,6 +20,6 @@ export default async function Page({ params }: { params: { id: any } }) {
       ) : (
         <TopicSubmission eventId={eventId} />
       )}
-    </Layout>
+    </div>
   );
 }

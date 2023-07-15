@@ -1,6 +1,5 @@
 // page.tsx
 
-import { Layout } from "@/components/basic-layout";
 import Link from "next/link";
 import { prisma } from "@/utils/prisma";
 import { Person, Stage, Topic } from "@prisma/client";
@@ -56,7 +55,7 @@ export default async function Page({ params }: { params: { id: number } }) {
   );
 
   return (
-    <Layout>
+    <div>
       <h1 className="font-serif">{eventName} Event</h1>
       {stage == Stage.SELECTIONS && (
         <div className="my-4">
@@ -75,7 +74,7 @@ export default async function Page({ params }: { params: { id: number } }) {
         <TopicPreferences peoplePreferences={peoplePreferences} />
       )}
       <TopicSubmissions topics={topics} />
-    </Layout>
+    </div>
   );
 }
 
