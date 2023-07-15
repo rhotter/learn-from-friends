@@ -6,7 +6,7 @@ import { TopicSelection } from "./TopicSelection";
 
 export const revalidate = 0; // dynamic page
 
-export default async function Page({ params }: { params: { id: number } }) {
+export default async function Page({ params }: { params: { id: any } }) {
   const eventId = Number(params.id);
 
   const stage = await getStage(eventId);

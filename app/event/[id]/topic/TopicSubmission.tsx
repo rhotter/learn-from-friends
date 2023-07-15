@@ -70,8 +70,6 @@ function TopicSubmissionForm({ eventId }: { eventId: number }) {
           topic: values.topic,
         }),
       });
-
-      console.log(data);
     } catch (error) {
       setIsError(true);
     } finally {

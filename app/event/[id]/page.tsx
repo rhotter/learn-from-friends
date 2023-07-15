@@ -45,7 +45,6 @@ async function getData(eventId: number) {
   const peoplePreferences = event!.people;
   const stage = event!.stage;
   const eventName = event!.name;
-  console.log(peoplePreferences);
   return { topics, stage, eventName, peoplePreferences };
 }
 
@@ -80,18 +79,22 @@ export default async function Page({ params }: { params: { id: number } }) {
   );
 }
 
-const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => (
-  <div className="w-full">
-    {stage == Stage.SELECTIONS
-      ? "Topic selection link (same as before)"
-      : "Topic submission link"}
-    :{" "}
-    <Link
-      href={`/event/${id}/topic`}
-      className="text-slate-600 hover:text-slate-500 font-semibold"
-    >{`https://learnfromfriends.xyz/${id}/topic`}</Link>
-    <div className="flex justify-center mt-4">
-      <QRCodeSVG value={`https://learnfromfriends.xyz/${id}/topic`} />
+const baseUrl = "https://learnfromfriends.xyz";
+const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => {
+  const route = `event/${id}/topic`;
+  return (
+    <div className="w-full">
+      {stage == Stage.SELECTIONS
+        ? "Topic selection link (same as before)"
+        : "Topic submission link"}
+      :{" "}
+      <Link
+        href={`/${route}`}
+        className="text-slate-600 hover:text-slate-500 font-semibold"
+      >{`${baseUrl}/${route}`}</Link>
+      <div className="flex justify-center mt-4">
+        <QRCodeSVG value={`${baseUrl}/${route}`} />
+      </div>
     </div>
-  </div>
-);
+  );
+};
