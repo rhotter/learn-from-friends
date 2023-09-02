@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { SubmitButton } from "./SubmitButton";
+import { useRouter } from "next/navigation";
 
 export const TopicSubmission = ({ eventId }: { eventId: number }) => (
   <div className="mx-auto">
@@ -54,7 +55,9 @@ function TopicSubmissionForm({ eventId }: { eventId: number }) {
     },
   });
 
-  // 2. Define a submit handler.
+  const router = useRouter();
+
+  // Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     setIsError(false);
@@ -73,7 +76,8 @@ function TopicSubmissionForm({ eventId }: { eventId: number }) {
     } catch (error) {
       setIsError(true);
     } finally {
-      setIsLoading(false);
+      // redicted to the submitted page
+      router.push(`/event/${eventId}/topic/submitted`);
     }
   }
 
