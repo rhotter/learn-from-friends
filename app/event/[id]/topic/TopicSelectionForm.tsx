@@ -10,6 +10,7 @@ import { useState } from "react";
 import { SubmitButton } from "./SubmitButton";
 import { Person } from "@prisma/client";
 import { ComboBoxFormField } from "@/components/ComboBoxFormField";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z
   .object({
@@ -61,6 +62,8 @@ export function TopicSelectionForm({
     resolver: zodResolver(FormSchema),
   });
 
+  const router = useRouter();
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
 
@@ -75,7 +78,8 @@ export function TopicSelectionForm({
       console.log(ret);
     } catch (error) {
     } finally {
-      setIsLoading(false);
+      // redirect to submitted page
+      router.push(`/event/${eventId}/topic/submitted`);
     }
   }
 
