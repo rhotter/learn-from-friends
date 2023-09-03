@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { XCircleIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 interface TopicSubmissionsProps {
@@ -82,6 +82,14 @@ const DeleteButton = ({
   handleDelete: (id: number) => Promise<void>;
   topic: TopicWithTeacher;
 }) => {
+  // get the isAdmin query param
+  const searchParams = useSearchParams();
+  const isAdmin = searchParams!.get("admin");
+
+  if (!isAdmin) {
+    return <></>;
+  }
+
   const [isDeleting, setIsDeleting] = useState(false);
 
   return (
