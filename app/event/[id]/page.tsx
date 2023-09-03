@@ -8,6 +8,7 @@ import { TopicPreferences } from "@/components/TopicPreferences";
 import { TopicSubmissions } from "@/components/TopicSubmissions";
 import { FormGroups } from "./FormGroups";
 import { QRCodeSVG } from "qrcode.react";
+import { useSearchParams } from "next/navigation";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;

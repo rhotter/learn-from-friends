@@ -1,3 +1,5 @@
+"use client";
+
 import { TopicWithTeacher } from "@/app/event/[id]/page";
 import {
   Table,
@@ -7,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { topicToString } from "@/utils/topicToString";
 import { Person, Preference } from "@prisma/client";
+import { useSearchParams } from "next/navigation";
 
 interface PreferenceWithTopic extends Preference {
   topic: TopicWithTeacher;
@@ -23,6 +25,14 @@ export function TopicPreferences({
 }: {
   peoplePreferences: PersonPreferences[];
 }) {
+  // get the isAdmin query param
+  const searchParams = useSearchParams();
+  const isAadmin = searchParams!.get("admin");
+
+  if (!isAadmin) {
+    return null;
+  }
+
   return (
     <div className="my-8 overflow">
       <h2 className="font-semibold mb-4">Preferences</h2>
@@ -44,7 +54,7 @@ export function TopicPreferences({
               <TableRow key={index}>
                 <TableCell className="font-medium">{person.name}</TableCell>
                 {topicsRanked.map((topic) => (
-                  <TableCell>
+                  <TableCell key={topic.id}>
                     {topic.topic.name}{" "}
                     <span className="text-slate-400">
                       ({topic.topic.teacher.name})
