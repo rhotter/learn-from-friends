@@ -18,8 +18,12 @@ import { setStage } from "@/utils/setStage";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader } from "./Loader";
+import { useIsAdmin } from "@/app/event/[id]/AdminContext";
 
 export const FinalizeTopicsButton = ({ eventId }: { eventId: number }) => {
+  const isAdmin = useIsAdmin();
+  if (!isAdmin) return null;
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   return (

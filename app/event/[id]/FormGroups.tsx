@@ -6,6 +6,7 @@ import { FormGroupsButton } from "./FormGroupsButton";
 import { Person, Topic } from "@prisma/client";
 import { Groups } from "../Groups";
 import { PersonPreferences } from "@/components/TopicPreferences";
+import { useIsAdmin } from "./AdminContext";
 
 export interface TeachingBlock {
   block: string;
@@ -28,6 +29,9 @@ export const FormGroups = ({
   eventId: number;
   peoplePreferences: PersonPreferences[];
 }) => {
+  const isAdmin = useIsAdmin();
+  if (!isAdmin) return null;
+
   const [blocks, setBlocks] = useState<TeachingBlock[] | null>(null);
   const [status, setStatus] = useState<string | null>(null);
 

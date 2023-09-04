@@ -8,7 +8,7 @@ import { TopicPreferences } from "@/components/TopicPreferences";
 import { TopicSubmissions } from "@/components/TopicSubmissions";
 import { FormGroups } from "./FormGroups";
 import { QRCodeSVG } from "qrcode.react";
-import { useSearchParams } from "next/navigation";
+import { TopicSelectionsInstructions } from "./TopicSelectionsInstructions";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;
@@ -58,11 +58,7 @@ export default async function Page({ params }: { params: { id: number } }) {
   return (
     <div>
       <h1 className="font-serif">{eventName} Event</h1>
-      {stage == Stage.SELECTIONS && (
-        <div className="my-4">
-          It's now time for people to select the topics they want to learn!
-        </div>
-      )}
+      {stage == Stage.SELECTIONS && <TopicSelectionsInstructions />}
       <TopicLink id={eventId} stage={stage} />
       <div className="my-8">
         {stage == Stage.SELECTIONS ? (
@@ -79,8 +75,8 @@ export default async function Page({ params }: { params: { id: number } }) {
   );
 }
 
-const baseUrl = "https://learnfromfriends.xyz";
 const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => {
+  const baseUrl = "https://learnfromfriends.xyz";
   const route = `event/${id}/topic`;
   return (
     <div className="w-full">

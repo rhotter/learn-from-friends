@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsAdmin } from "@/app/event/[id]/AdminContext";
 import { TopicWithTeacher } from "@/app/event/[id]/page";
 import {
   Table,
@@ -25,11 +26,9 @@ export function TopicPreferences({
 }: {
   peoplePreferences: PersonPreferences[];
 }) {
-  // get the isAdmin query param
-  const searchParams = useSearchParams();
-  const isAadmin = searchParams!.get("admin");
+  const isAdmin = useIsAdmin();
 
-  if (!isAadmin) {
+  if (!isAdmin) {
     return null;
   }
 

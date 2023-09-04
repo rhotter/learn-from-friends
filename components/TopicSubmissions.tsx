@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsAdmin } from "@/app/event/[id]/AdminContext";
 import { TopicWithTeacher } from "@/app/event/[id]/page";
 import {
   Table,
@@ -10,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { XCircleIcon } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface TopicSubmissionsProps {
@@ -82,9 +83,7 @@ const DeleteButton = ({
   handleDelete: (id: number) => Promise<void>;
   topic: TopicWithTeacher;
 }) => {
-  // get the isAdmin query param
-  const searchParams = useSearchParams();
-  const isAdmin = searchParams!.get("admin");
+  const isAdmin = useIsAdmin();
 
   if (!isAdmin) {
     return <></>;
