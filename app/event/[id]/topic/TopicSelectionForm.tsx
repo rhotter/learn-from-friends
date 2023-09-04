@@ -79,7 +79,7 @@ export function TopicSelectionForm({
     } catch (error) {
     } finally {
       // redirect to submitted page
-      router.push(`/event/${eventId}/topic/submitted`);
+      router.push(`/event/${eventId}/topic/submitted?type=select`);
     }
   }
 

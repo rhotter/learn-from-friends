@@ -77,7 +77,7 @@ function TopicSubmissionForm({ eventId }: { eventId: number }) {
       setIsError(true);
     } finally {
       // redicted to the submitted page
-      router.push(`/event/${eventId}/topic/submitted`);
+      router.push(`/event/${eventId}/topic/submitted?type=submit`);
     }
   }
 
