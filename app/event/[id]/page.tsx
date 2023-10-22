@@ -41,36 +41,34 @@ async function getData(eventId: number) {
     },
   });
 
-  const topics = event!.topics;
-  const peoplePreferences = event!.people;
-  const stage = event!.stage;
-  const eventName = event!.name;
-  return { topics, stage, eventName, peoplePreferences };
+  return event;
 }
 
 export default async function Page({ params }: { params: { id: number } }) {
   const eventId = Number(params.id);
 
-  const { topics, stage, eventName, peoplePreferences } = await getData(
-    eventId
-  );
+  const event = await getData(eventId);
 
+  if (!event) return <div>Event not found</div>;
   return (
     <div>
-      <h1>{eventName} Event</h1>
-      {stage == Stage.SELECTIONS && <TopicSelectionsInstructions />}
-      <TopicLink id={eventId} stage={stage} />
+      <h1>{event.name} Event</h1>
+      {event.stage == Stage.SELECTIONS && <TopicSelectionsInstructions />}
+      <TopicLink id={eventId} stage={event.stage} />
       <div className="my-8">
-        {stage == Stage.SELECTIONS ? (
-          <FormGroups eventId={eventId} peoplePreferences={peoplePreferences} />
+        {event.stage == Stage.SELECTIONS ? (
+          <FormGroups eventId={eventId} peoplePreferences={event.people} />
         ) : (
           <FinalizeTopicsButton eventId={eventId} />
         )}
       </div>
-      {stage == Stage.SELECTIONS && (
-        <TopicPreferences peoplePreferences={peoplePreferences} />
+      {event.stage == Stage.SELECTIONS && (
+        <TopicPreferences
+          peoplePreferences={event.people}
+          numPreferences={event.numPreferences}
+        />
       )}
-      <TopicSubmissions topics={topics} />
+      <TopicSubmissions topics={event.topics} />
     </div>
   );
 }

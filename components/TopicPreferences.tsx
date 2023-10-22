@@ -23,7 +23,7 @@ export interface PersonPreferences extends Person {
 
 export function TopicPreferences({
   peoplePreferences,
-  numPreferences = 3,
+  numPreferences,
 }: {
   peoplePreferences: PersonPreferences[];
   numPreferences: number;
