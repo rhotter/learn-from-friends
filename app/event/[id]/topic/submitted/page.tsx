@@ -14,7 +14,11 @@ const Page = ({ params }: { params: { id: string } }) => {
       <div>
         Submitted!{" "}
         {pageType === "submit" && (
-          <Link href={`/event/${params.id}`} className="underline">
+          <Link
+            href={`/event/${params.id}`}
+            className="underline"
+            prefetch={false}
+          >
             View all topic submissions
           </Link>
         )}
