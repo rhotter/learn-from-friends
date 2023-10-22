@@ -50,7 +50,7 @@ export function TopicSubmissions({ topics }: TopicSubmissionsProps) {
       ) : (
         <Table>
           <TableHeader>
-            <TableRow>
+            <TableRow className="hover:bg-background">
               <TableHead className="w-[100px]">Name</TableHead>
               <TableHead>Topic</TableHead>
             </TableRow>
