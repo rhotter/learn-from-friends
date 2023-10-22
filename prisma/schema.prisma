@@ -38,7 +38,6 @@ model Person {
   id          Int          @id @default(autoincrement())
   name        String
   topic       Topic?
-  topicId     Int?
   event       Event        @relation(fields: [eventId], references: [id])
   eventId     Int
   preferences Preference[]
