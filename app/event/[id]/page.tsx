@@ -77,7 +77,7 @@ const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => {
   const baseUrl = "https://learnfromfriends.xyz";
   const route = `event/${id}/topic`;
   return (
-    <div className="mx-auto max-w-sm border border-orange-200 p-4 bg-orange-200/50 rounded-md">
+    <div className="mx-auto max-w-sm border border-orange-300 p-4 bg-orange-100/50 rounded-md">
       {stage == Stage.SELECTIONS
         ? "Select topics at (same as before)"
         : "Submit topics at"}
