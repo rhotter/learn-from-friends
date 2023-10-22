@@ -96,7 +96,7 @@ const DeleteButton = ({
       type="button"
       onClick={() => {
         setIsDeleting(true);
-        handleDelete(topic.id).then(() => setIsDeleting(true));
+        handleDelete(topic.id).then(() => setIsDeleting(false));
       }}
       className="text-gray-500/50 hover:text-gray-800 transition-colors duration-200"
     >

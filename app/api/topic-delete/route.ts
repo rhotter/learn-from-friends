@@ -12,10 +12,12 @@ export async function POST(req: Request) {
     },
   });
 
-  // Delete the pereson for this topic
-  await prisma.person.deleteMany({
+  // find the people to delete
+  const people = await prisma.person.findMany({
     where: {
-      topicId: Number(topicId),
+      topic: {
+        id: Number(topicId),
+      },
     },
   });
 
@@ -23,6 +25,15 @@ export async function POST(req: Request) {
   const topic = await prisma.topic.delete({
     where: {
       id: Number(topicId),
+    },
+  });
+
+  // Delete the people
+  await prisma.person.deleteMany({
+    where: {
+      id: {
+        in: people.map((person) => person.id),
+      },
     },
   });
 
