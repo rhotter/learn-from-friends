@@ -43,22 +43,31 @@ export const Options = ({
               defaultValue={field.value}
               className="flex flex-col space-y-2"
             >
-              {items.map((item) => (
-                <FormItem
-                  key={item.value}
-                  className="flex items-center space-x-3 space-y-0 cursor-pointer"
-                >
-                  <FormControl>
-                    <RadioGroupItem
-                      value={item.value}
-                      className="border-gray-500"
-                    />
-                  </FormControl>
-                  <FormLabel className="font-normal cursor-pointer">
-                    {item.label}
-                  </FormLabel>
-                </FormItem>
-              ))}
+              {items.map((item) => {
+                const itemSelected = field.value == item.value;
+                return (
+                  <FormItem
+                    key={item.value}
+                    className="flex items-center space-x-3 space-y-0 cursor-pointer"
+                  >
+                    <FormControl>
+                      <RadioGroupItem
+                        value={item.value}
+                        className={
+                          itemSelected ? "border-orange-600" : "border-gray-500"
+                        }
+                      />
+                    </FormControl>
+                    <FormLabel
+                      className={`font-normal cursor-pointer ${
+                        itemSelected ? "font-semibold text-orange-600" : ""
+                      }`}
+                    >
+                      {item.label}
+                    </FormLabel>
+                  </FormItem>
+                );
+              })}
             </RadioGroup>
           </FormControl>
           <FormMessage />
