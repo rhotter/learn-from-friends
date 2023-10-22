@@ -44,7 +44,7 @@ export const Options = ({
               className="flex flex-col space-y-2"
             >
               {items.map((item) => {
-                const itemSelected = field.value == item.value;
+                const isItemSelected = field.value == item.value;
                 return (
                   <FormItem
                     key={item.value}
@@ -54,13 +54,15 @@ export const Options = ({
                       <RadioGroupItem
                         value={item.value}
                         className={
-                          itemSelected ? "border-orange-600" : "border-gray-500"
+                          isItemSelected
+                            ? "border-orange-600"
+                            : "border-gray-500"
                         }
                       />
                     </FormControl>
                     <FormLabel
                       className={`font-normal cursor-pointer ${
-                        itemSelected ? "font-semibold text-orange-600" : ""
+                        isItemSelected ? "font-semibold text-orange-600" : ""
                       }`}
                     >
                       {item.label}
