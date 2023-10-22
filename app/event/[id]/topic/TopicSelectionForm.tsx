@@ -6,11 +6,11 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Form } from "@/components/ui/form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitButton } from "./SubmitButton";
 import { Person } from "@prisma/client";
-import { ComboBoxFormField } from "@/components/ComboBoxFormField";
 import { useRouter } from "next/navigation";
+import { Options } from "./Options";
 
 const FormSchema = z
   .object({
@@ -44,6 +44,7 @@ const FormSchema = z
     {
       // If the validation fails, this error message will be returned
       message: "The three choices must be different.",
+      path: ["root"],
     }
   );
 
@@ -76,10 +77,17 @@ export function TopicSelectionForm({
         body: JSON.stringify({ ...data, eventId }),
       });
       console.log(ret);
-    } catch (error) {
+      // redirect to submitted page if there's no error
+      if (ret.ok) {
+        router.push(`/event/${eventId}/topic/submitted?type=select`);
+      } else {
+        const errorData = await ret.json();
+        alert(errorData.message);
+      }
+    } catch (error: any) {
+      alert(error.message);
     } finally {
-      // redirect to submitted page
-      router.push(`/event/${eventId}/topic/submitted?type=select`);
+      setIsLoading(false);
     }
   }
 
@@ -90,36 +98,51 @@ export function TopicSelectionForm({
       label: `${topic.label} (${topic.person.name})`,
     }));
 
+  const firstChoice = form.watch("firstChoice");
+  const secondChoice = form.watch("secondChoice");
+  const thirdChoice = form.watch("thirdChoice");
+
+  const isNotUnique =
+    !!firstChoice &&
+    !!secondChoice &&
+    !!thirdChoice &&
+    (firstChoice == secondChoice ||
+      firstChoice == thirdChoice ||
+      secondChoice == thirdChoice);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <ComboBoxFormField
+        <Options
           form={form}
           items={names}
           formFieldName="personId"
           label="Name"
         />
-        <ComboBoxFormField
+        <Options
           form={form}
           items={topicsWithoutSelf}
           formFieldName="firstChoice"
           label="First Choice"
         />
 
-        <ComboBoxFormField
+        <Options
           form={form}
           items={topicsWithoutSelf}
           formFieldName="secondChoice"
           label="Second Choice"
         />
 
-        <ComboBoxFormField
+        <Options
           form={form}
           items={topicsWithoutSelf}
           formFieldName="thirdChoice"
           label="Third Choice"
         />
         <SubmitButton isLoading={isLoading} />
+        <div className="text-red-500 text-sm">
+          {isNotUnique && "The three choices must be different."}
+        </div>
       </form>
     </Form>
   );

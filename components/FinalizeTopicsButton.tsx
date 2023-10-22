@@ -40,7 +40,8 @@ export const FinalizeTopicsButton = ({ eventId }: { eventId: number }) => {
             Are you ready to finalize the topics?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            You'll lock in the topics, and topic selections will open.
+            You'll lock in the topics, and people will be able to select their
+            preferences.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
