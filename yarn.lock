@@ -2482,6 +2482,11 @@ optionator@^0.9.1:
     prelude-ls "^1.2.1"
     type-check "^0.4.0"
 
+ordinal@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ordinal/-/ordinal-1.0.3.tgz#1a3c7726a61728112f50944ad7c35c06ae3a0d4d"
+  integrity sha512-cMddMgb2QElm8G7vdaa02jhUNbTSrhsgAGUz1OokD83uJTwSUn+nKoNoKVVaRa08yF6sgfO7Maou1+bgLd9rdQ==
+
 p-limit@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-3.1.0.tgz#e1daccbe78d0d1388ca18c64fea38e3e57e3706b"

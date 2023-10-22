@@ -4,9 +4,7 @@ import { NextResponse } from "next/server";
 interface PreferenceInput {
   personId: number;
   eventId: number;
-  firstChoice: number;
-  secondChoice: number;
-  thirdChoice: number;
+  choices: number[]; // An array of topicIds, where the index represents the rank
 }
 
 const upsertPreference = async (
@@ -25,6 +23,7 @@ const upsertPreference = async (
     },
     update: {
       rank,
+      topicId,
     },
     create: {
       personId,
@@ -48,29 +47,20 @@ export async function POST(req: Request) {
 
   const alreadySubmitted = existingPreferences.length > 0;
 
-  const firstPreference = await upsertPreference(
-    preferenceInput.personId,
-    preferenceInput.eventId,
-    preferenceInput.firstChoice,
-    1
-  );
-
-  const secondPreference = await upsertPreference(
-    preferenceInput.personId,
-    preferenceInput.eventId,
-    preferenceInput.secondChoice,
-    2
-  );
-
-  const thirdPreference = await upsertPreference(
-    preferenceInput.personId,
-    preferenceInput.eventId,
-    preferenceInput.thirdChoice,
-    3
+  // Upsert each choice
+  const preferences = await Promise.all(
+    preferenceInput.choices.map((choice, index) =>
+      upsertPreference(
+        preferenceInput.personId,
+        preferenceInput.eventId,
+        choice,
+        index + 1 // rank starts from 1
+      )
+    )
   );
 
   return NextResponse.json({
     alreadySubmitted,
-    preferences: [firstPreference, secondPreference, thirdPreference],
+    preferences,
   });
 }

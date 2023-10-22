@@ -13,13 +13,14 @@ enum Stage {
 }
 
 model Event {
-  id          Int          @id @default(autoincrement())
-  topics      Topic[]
-  name        String
-  people      Person[]
-  stage       Stage        @default(SUBMISSIONS)
-  preferences Preference[]
-  date        DateTime     @default(now())
+  id             Int          @id @default(autoincrement())
+  topics         Topic[]
+  name           String
+  people         Person[]
+  stage          Stage        @default(SUBMISSIONS)
+  preferences    Preference[]
+  date           DateTime     @default(now())
+  numPreferences Int          @default(4)
 }
 
 model Topic {

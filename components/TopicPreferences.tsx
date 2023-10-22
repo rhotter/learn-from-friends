@@ -11,7 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Person, Preference } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
+import ordinal from "ordinal";
 
 interface PreferenceWithTopic extends Preference {
   topic: TopicWithTeacher;
@@ -23,8 +23,10 @@ export interface PersonPreferences extends Person {
 
 export function TopicPreferences({
   peoplePreferences,
+  numPreferences = 3,
 }: {
   peoplePreferences: PersonPreferences[];
+  numPreferences: number;
 }) {
   const isAdmin = useIsAdmin();
 
@@ -39,9 +41,11 @@ export function TopicPreferences({
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Name</TableHead>
-            <TableHead>First choice</TableHead>
-            <TableHead>Second choice</TableHead>
-            <TableHead>Third choice</TableHead>
+            {Array.from({ length: numPreferences }).map((_, index) => (
+              <TableHead key={index}>{`${ordinal(
+                index + 1
+              )} choice`}</TableHead>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -6,59 +6,58 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Form } from "@/components/ui/form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitButton } from "./SubmitButton";
 import { Person } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Options } from "./Options";
 
-const FormSchema = z
-  .object({
-    personId: z.number({
-      required_error: "Please select your name.",
-    }),
-    firstChoice: z.number({
-      required_error: "Please select your first choice topic.",
-    }),
-    secondChoice: z.number({
-      required_error: "Please select your second choice topic.",
-    }),
-    thirdChoice: z.number({
-      required_error: "Please select your third choice topic.",
-    }),
-  })
-  .refine(
-    (data) => {
-      // if no data yet, don't validate
-      if (!data.firstChoice || !data.secondChoice || !data.thirdChoice) {
-        return true;
-      }
+import ordinal from "ordinal";
 
-      // Check if first, second, and third choice are different
-      return (
-        data.firstChoice !== data.secondChoice &&
-        data.firstChoice !== data.thirdChoice &&
-        data.secondChoice !== data.thirdChoice
-      );
-    },
-    {
-      // If the validation fails, this error message will be returned
-      message: "The three choices must be different.",
-      path: ["root"],
-    }
-  );
-
-export function TopicSelectionForm({
-  names,
-  topics,
-  eventId,
-}: {
+interface TopicSelectionFormProps {
   names: { label: string; value: any }[];
   topics: { label: string; value: any; person: Person }[];
   eventId: number;
-}) {
+  numPreferences?: number;
+}
+
+const generateFormSchema = (numPreferences: number) => {
+  let schema: Record<string, any> = {
+    personId: z.number({ required_error: "Please select your name." }),
+  };
+
+  for (let i = 1; i <= numPreferences; i++) {
+    schema[`choice${i}`] = z.number({
+      required_error: `Please select your ${ordinal(i)} choice topic.`,
+    });
+  }
+
+  return z.object(schema).refine(
+    (data) => {
+      const choices: number[] = [];
+      for (let i = 1; i <= numPreferences; i++) {
+        if (data[`choice${i}`]) {
+          choices.push(data[`choice${i}`]);
+        }
+      }
+      return new Set(choices).size === choices.length;
+    },
+    {
+      message: "All choices must be different.",
+      path: ["root"],
+    }
+  );
+};
+
+export const TopicSelectionForm: React.FC<TopicSelectionFormProps> = ({
+  names,
+  topics,
+  eventId,
+  numPreferences = 3,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  const FormSchema = generateFormSchema(numPreferences);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -69,12 +68,22 @@ export function TopicSelectionForm({
     setIsLoading(true);
 
     try {
+      // Collect dynamically named form fields into choices array
+      const choices: number[] = [];
+      for (let i = 1; i <= numPreferences; i++) {
+        choices.push(data[`choice${i}`]);
+      }
+
       const ret = await fetch("/api/preferences", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...data, eventId }),
+        body: JSON.stringify({
+          personId: data.personId,
+          eventId,
+          choices,
+        }),
       });
       console.log(ret);
       // redirect to submitted page if there's no error
@@ -98,17 +107,15 @@ export function TopicSelectionForm({
       label: `${topic.label} (${topic.person.name})`,
     }));
 
-  const firstChoice = form.watch("firstChoice");
-  const secondChoice = form.watch("secondChoice");
-  const thirdChoice = form.watch("thirdChoice");
+  const choices = Array.from({ length: numPreferences }, (_, i) =>
+    form.watch(`choice${i + 1}`)
+  );
 
   const isNotUnique =
-    !!firstChoice &&
-    !!secondChoice &&
-    !!thirdChoice &&
-    (firstChoice == secondChoice ||
-      firstChoice == thirdChoice ||
-      secondChoice == thirdChoice);
+    choices.filter((choice, index) => choices.indexOf(choice) !== index)
+      .length > 0;
+
+  const isAllChoicesPicked = choices.every((choice) => !!choice);
 
   return (
     <Form {...form}>
@@ -119,31 +126,22 @@ export function TopicSelectionForm({
           formFieldName="personId"
           label="Name"
         />
-        <Options
-          form={form}
-          items={topicsWithoutSelf}
-          formFieldName="firstChoice"
-          label="First Choice"
-        />
-
-        <Options
-          form={form}
-          items={topicsWithoutSelf}
-          formFieldName="secondChoice"
-          label="Second Choice"
-        />
-
-        <Options
-          form={form}
-          items={topicsWithoutSelf}
-          formFieldName="thirdChoice"
-          label="Third Choice"
-        />
+        {Array.from({ length: numPreferences }, (_, i) => (
+          <Options
+            key={i}
+            form={form}
+            items={topicsWithoutSelf}
+            formFieldName={`choice${i + 1}`}
+            label={`${ordinal(i + 1)} Choice`}
+          />
+        ))}
         <SubmitButton isLoading={isLoading} />
         <div className="text-red-500 text-sm">
-          {isNotUnique && "The three choices must be different."}
+          {isAllChoicesPicked &&
+            isNotUnique &&
+            `The ${numPreferences} choices must be different.`}
         </div>
       </form>
     </Form>
   );
-}
+};
