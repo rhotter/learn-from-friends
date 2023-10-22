@@ -29,6 +29,16 @@ export async function POST(req: Request) {
     },
   });
 
+  const event = await prisma.event.findUnique({
+    where: {
+      id: eventId,
+    },
+  });
+
+  if (!event) {
+    throw new Error(`No event found with id ${eventId}`);
+  }
+
   const idToPerson = new Map(
     peopleWithTopics.map((person) => [person.id, person])
   );
@@ -41,7 +51,7 @@ export async function POST(req: Request) {
       out: person.preferences.map((pref) => pref.topic.teacher.id),
     })),
     n_blocks: 2,
-    weights: [1, 2, 3],
+    weights: Array.from({ length: event.numPreferences }, (_, i) => i + 1),
     low_priority_weight: 10,
     exclude_presenters: excludePresenterId ? [excludePresenterId] : [],
     first_time_people: [],
