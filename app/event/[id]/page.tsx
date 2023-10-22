@@ -89,7 +89,9 @@ const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => {
         className="font-semibold"
       >{`${baseUrl}/${route}`}</Link>
       <div className="flex justify-center mt-4">
-        <QRCodeSVG value={`${baseUrl}/${route}`} />
+        <Link href={`/${route}`}>
+          <QRCodeSVG value={`${baseUrl}/${route}`} />
+        </Link>
       </div>
     </div>
   );
