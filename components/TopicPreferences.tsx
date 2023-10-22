@@ -55,7 +55,7 @@ export function TopicPreferences({
                 {topicsRanked.map((topic) => (
                   <TableCell key={topic.id}>
                     {topic.topic.name}{" "}
-                    <span className="text-slate-400">
+                    <span className="text-gray-400">
                       ({topic.topic.teacher.name})
                     </span>
                   </TableCell>

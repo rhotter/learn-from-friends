@@ -44,7 +44,7 @@ export function TopicSubmissions({ topics }: TopicSubmissionsProps) {
     <div className="my-8">
       <h2 className="font-semibold mb-4">Topic Submissions</h2>
       {topics.length === 0 ? (
-        <div className="text-slate-500 text-sm">
+        <div className="text-gray-500 text-sm">
           No topics have been submitted yet.
         </div>
       ) : (
@@ -98,7 +98,7 @@ const DeleteButton = ({
         setIsDeleting(true);
         handleDelete(topic.id).then(() => setIsDeleting(true));
       }}
-      className="text-gray-400/50 hover:text-gray-800 transition-colors duration-200"
+      className="text-gray-500/50 hover:text-gray-800 transition-colors duration-200"
     >
       {isDeleting ? <span>deleting...</span> : <XCircleIcon size={18} />}
     </button>

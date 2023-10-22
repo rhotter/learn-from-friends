@@ -121,7 +121,7 @@ const FormGroupButtonDialog = ({
             <DialogHeader>
               <DialogTitle>Odd number of people</DialogTitle>
             </DialogHeader>
-            <div className="text-xs text-slate-500">
+            <div className="text-xs text-gray-500">
               Since the number of people is odd, you'll need to select 1 person
               who won't present and will instead be a student twice.
             </div>

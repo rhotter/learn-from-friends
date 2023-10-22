@@ -1,7 +1,7 @@
 "use client";
 
+import Link from "@/components/Link";
 import Image from "next/image";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 const Page = ({ params }: { params: { id: string } }) => {

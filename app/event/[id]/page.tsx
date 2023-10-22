@@ -1,6 +1,5 @@
 // page.tsx
 
-import Link from "next/link";
 import { prisma } from "@/utils/prisma";
 import { Person, Stage, Topic } from "@prisma/client";
 import { FinalizeTopicsButton } from "@/components/FinalizeTopicsButton";
@@ -9,6 +8,7 @@ import { TopicSubmissions } from "@/components/TopicSubmissions";
 import { FormGroups } from "./FormGroups";
 import { QRCodeSVG } from "qrcode.react";
 import { TopicSelectionsInstructions } from "./TopicSelectionsInstructions";
+import Link from "@/components/Link";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;
@@ -57,7 +57,7 @@ export default async function Page({ params }: { params: { id: number } }) {
 
   return (
     <div>
-      <h1 className="font-serif">{eventName} Event</h1>
+      <h1>{eventName} Event</h1>
       {stage == Stage.SELECTIONS && <TopicSelectionsInstructions />}
       <TopicLink id={eventId} stage={stage} />
       <div className="my-8">
@@ -79,14 +79,14 @@ const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => {
   const baseUrl = "https://learnfromfriends.xyz";
   const route = `event/${id}/topic`;
   return (
-    <div className="w-full">
+    <div className="mx-auto max-w-sm border border-orange-200 p-4 bg-orange-200/50 rounded-md">
       {stage == Stage.SELECTIONS
-        ? "Topic selection link (same as before)"
-        : "Topic submission link"}
-      :{" "}
+        ? "Select topics at (same as before)"
+        : "Submit topics at"}
+      <br />
       <Link
         href={`/${route}`}
-        className="text-slate-600 hover:text-slate-500 font-semibold"
+        className="font-semibold"
       >{`${baseUrl}/${route}`}</Link>
       <div className="flex justify-center mt-4">
         <QRCodeSVG value={`${baseUrl}/${route}`} />

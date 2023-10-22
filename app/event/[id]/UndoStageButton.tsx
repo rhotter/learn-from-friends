@@ -13,7 +13,7 @@ export const UndoStageButton = ({ eventId }: { eventId: number }) => {
     <div className="mt-2">
       <Loader isLoading={isLoading}>
         <a
-          className="cursor-pointer text-slate-400 hover:text-slate-500  text-xs"
+          className="cursor-pointer text-gray-400 hover:text-gray-500  text-xs"
           onClick={async (e) => {
             setIsLoading(true);
             e.preventDefault();

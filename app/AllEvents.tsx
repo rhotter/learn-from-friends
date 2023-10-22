@@ -1,6 +1,6 @@
+import Link from "@/components/Link";
 import { NewEvent } from "@/components/NewEvent";
 import { prisma } from "@/utils/prisma";
-import Link from "next/link";
 
 export const AllEvents = async () => {
   const events = await prisma.event.findMany({
@@ -26,10 +26,10 @@ const Event: React.FC<{
   name: string;
   date: Date;
 }> = ({ name, date, id }) => (
-  <Link href={`/event/${id}`}>
-    <div className="border p-4 border-gray-300 rounded-lg hover:bg-gray-100 cursor-pointer">
-      <h3 className="mb-2">{name}</h3>
-      <p className="text-gray-500">{date.toDateString()}</p>
+  <Link href={`/event/${id}`} className="hover:no-underline">
+    <div className="border p-4 border-secondary-background rounded-lg hover:bg-primary-foreground cursor-pointer">
+      <h3 className="mb-2 text-foreground">{name}</h3>
+      <p className="text-secondary-foreground">{date.toDateString()}</p>
     </div>
   </Link>
 );

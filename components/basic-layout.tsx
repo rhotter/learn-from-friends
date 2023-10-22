@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { ReactNode } from "react";
+import React from "react";
 
 export const Layout: React.FC<{
   children: React.ReactNode;
@@ -13,14 +13,9 @@ export const Layout: React.FC<{
 };
 
 const Nav: React.FC = () => (
-  <div className="w-full border-b p-4">
+  <div className="w-full border-b p-4 text-primary-background">
     <Link href="/">
-      <h2
-        className="cursor-pointer font-serif
-      "
-      >
-        learn from friends
-      </h2>
+      <h2 className="cursor-pointer text-orange-500">learn from friends</h2>
     </Link>
   </div>
 );
