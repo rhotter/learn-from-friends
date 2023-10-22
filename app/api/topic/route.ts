@@ -9,12 +9,12 @@ interface NewTopicInput {
 }
 
 export async function POST(req: Request) {
-  const newTopic: NewTopicInput = await req.json();
+  const newTopicParams: NewTopicInput = await req.json();
 
   // Check if event is still taking topic submissions
   const event = await prisma.event.findUnique({
     where: {
-      id: Number(newTopic.eventId),
+      id: Number(newTopicParams.eventId),
     },
   });
 
@@ -30,19 +30,16 @@ export async function POST(req: Request) {
   // Create a new person
   const person = await prisma.person.create({
     data: {
-      name: newTopic.personName,
-      eventId: Number(newTopic.eventId),
+      name: newTopicParams.personName,
+      eventId: Number(newTopicParams.eventId),
+      topic: {
+        create: {
+          name: newTopicParams.topic,
+          eventId: Number(newTopicParams.eventId),
+        },
+      },
     },
   });
 
-  // Create a new topic with the person as the teacher
-  const topic = await prisma.topic.create({
-    data: {
-      name: newTopic.topic,
-      eventId: Number(newTopic.eventId),
-      teacherId: person.id,
-    },
-  });
-
-  return NextResponse.json(topic);
+  return NextResponse.json(person);
 }
