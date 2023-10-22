@@ -14,11 +14,14 @@ export const Groups = ({
         {blocks && (
           <div className="my-4 flex flex-col gap-4">
             {blocks.map((block, index) => (
-              <div key={index} className="flex flex-col gap-1">
-                <div className="text-gray-500 ">{block.block}</div>
-                <>
+              <div
+                key={index}
+                className="flex flex-col gap-1 bg-orange-100/50 p-4 rounded-md border border-orange-300"
+              >
+                <div className="font-semibold">{block.block}</div>
+                <ul className="list-disc pl-4">
                   {block.presentations.map((presentation, index) => (
-                    <div key={index}>
+                    <li key={index} className="my-2">
                       {presentation.presenter.topic.name}
 
                       <span className="text-gray-400">
@@ -29,9 +32,9 @@ export const Groups = ({
                           .join(", ")}
                         {")"}
                       </span>
-                    </div>
+                    </li>
                   ))}
-                </>
+                </ul>
               </div>
             ))}
           </div>
