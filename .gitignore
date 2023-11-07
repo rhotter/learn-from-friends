@@ -36,3 +36,4 @@ next-env.d.ts
 
 # python
 /api/__pycache__/
+.env
