@@ -124,7 +124,7 @@ export const TopicSelectionForm: React.FC<TopicSelectionFormProps> = ({
           form={form}
           items={names}
           formFieldName="personId"
-          label="Name"
+          label="Your name"
         />
         {Array.from({ length: numPreferences }, (_, i) => (
           <Options
