@@ -15,7 +15,7 @@ export const Layout: React.FC<{
 const Nav: React.FC = () => (
   <div className="w-full border-b p-4 text-primary-background">
     <Link href="/">
-      <h2 className="cursor-pointer text-orange-500">learn from friends</h2>
+      <h2 className="cursor-pointer text-orange-500">collaborate with friends</h2>
     </Link>
   </div>
 );
