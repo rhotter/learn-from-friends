@@ -21,7 +21,7 @@ export const TopicSubmission = ({ eventId }: { eventId: number }) => (
   <div className="mx-auto">
     <h1>Topic Submission</h1>
     <div className="mb-8 text-gray-500 text-sm">
-      <div className="mb-2">Submit a topic to teach for 15 min.</div>
+      <div className="mb-2">Submit a topic.</div>
       <div>
         Some examples:
         <ul>
@@ -106,7 +106,7 @@ function TopicSubmissionForm({ eventId }: { eventId: number }) {
               <FormLabel>Topic</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="An introduction to neurotechnology"
+                  placeholder="Let's analyze our own personalities"
                   {...field}
                 />
               </FormControl>
