@@ -38,7 +38,6 @@ export const TopicSelection = async ({ eventId }: { eventId: number }) => {
     <div className="mx-auto">
       <h1>Topic Selection</h1>
       <div className="mb-8 text-gray-500 text-sm">
-        <div className="mb-2">Let's analyze our own personalities and see how we can become better people!</div>
       </div>
       <TopicSelectionForm
         names={names}
