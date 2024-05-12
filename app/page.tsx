@@ -9,7 +9,7 @@ export default async function Page() {
   return (
     <main>
       <div>
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center pb-4">
           <div className="text-2xl font-semibold">Events</div>
           <NewEvent />
         </div>

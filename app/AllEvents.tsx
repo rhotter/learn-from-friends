@@ -32,9 +32,11 @@ const Event: React.FC<{
   date: Date;
 }> = ({ name, date, id }) => (
   <Link href={`/event/${id}`} className="hover:no-underline">
-    <div className="border p-4 border-secondary-background rounded-lg hover:bg-primary-foreground cursor-pointer">
-      <h3 className="mb-2 text-foreground">{name}</h3>
-      <p className="text-gray-500">{formatDate(date)}</p>
+    <div className="border px-4 py-8 border-secondary-background rounded-lg hover:bg-primary-foreground cursor-pointer flex items-center">
+      <div>
+        <h3 className="mb-2 text-foreground">{name}</h3>
+        <p className="text-gray-500">{formatDate(date)}</p>
+      </div>
     </div>
   </Link>
 );
