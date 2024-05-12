@@ -46,9 +46,9 @@ export const NewEvent = () => {
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          New Event
+        <Button className="px-4 font-semibold">
+          <Plus className="mr-2 h-4 w-4" strokeWidth={4} />
+          New
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

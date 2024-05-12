@@ -18,7 +18,6 @@ export const AllEvents = async () => {
           key={event.id}
         />
       ))}
-      <NewEvent />
     </div>
   );
 };
@@ -37,19 +36,9 @@ const Event: React.FC<{
 );
 
 const formatDate = (date: Date): string => {
-  const now = new Date();
-  if (date.toDateString() === now.toDateString()) {
-    return "Today";
-  }
-
-  const yesterday = new Date(now);
-  yesterday.setDate(now.getDate() - 1);
-
-  if (date.toDateString() === yesterday.toDateString()) {
-    return "Yesterday";
-  }
-
-  let formattedDate = formatDistanceToNow(date) + " ago";
-  formattedDate = formattedDate.replace("about ", "");
-  return formattedDate;
+  return date.toLocaleDateString(undefined, {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 };
