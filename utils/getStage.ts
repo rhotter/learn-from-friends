@@ -1,5 +1,4 @@
-import { prisma } from "@/utils/prisma";
-
+import prisma from "@/utils/prisma";
 export const getStage = async (eventId: number) => {
   const event = await prisma.event.findUnique({
     where: {

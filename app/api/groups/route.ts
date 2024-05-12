@@ -1,6 +1,6 @@
 import { TeachingBlock } from "@/app/event/[id]/FormGroups";
 import { getPeoplePreferences } from "@/utils/getPeoplePreferences";
-import { prisma } from "@/utils/prisma";
+import prisma from "@/utils/prisma";
 import { Person } from "@prisma/client";
 import { NextResponse } from "next/server";
 

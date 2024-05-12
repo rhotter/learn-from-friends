@@ -1,11 +1,15 @@
 import Link from "@/components/Link";
 import { NewEvent } from "@/components/NewEvent";
-import { prisma } from "@/utils/prisma";
+import prisma from "@/utils/prisma";
 import { formatDistanceToNow } from "date-fns";
 
 export const AllEvents = async () => {
   const events = await prisma.event.findMany({
     orderBy: { date: "desc" },
+    cacheStrategy: {
+      ttl: 60,
+      swr: 60,
+    },
   });
 
   return (

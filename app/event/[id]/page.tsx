@@ -1,6 +1,6 @@
 // page.tsx
 
-import { prisma } from "@/utils/prisma";
+import prisma from "@/utils/prisma";
 import { Person, Stage, Topic } from "@prisma/client";
 import { FinalizeTopicsButton } from "@/components/FinalizeTopicsButton";
 import { TopicPreferences } from "@/components/TopicPreferences";

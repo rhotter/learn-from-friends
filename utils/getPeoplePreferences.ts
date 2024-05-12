@@ -1,5 +1,4 @@
-import { prisma } from "@/utils/prisma";
-
+import prisma from "@/utils/prisma";
 export async function getPeoplePreferences(eventId: number) {
   const peoplePreferences = await prisma.person.findMany({
     where: {

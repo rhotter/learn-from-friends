@@ -1,4 +1,4 @@
-import { prisma } from "@/utils/prisma";
+import prisma from "@/utils/prisma";
 import { Stage } from "@prisma/client";
 import { NextResponse } from "next/server";
 

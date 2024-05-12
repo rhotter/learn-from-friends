@@ -1,7 +1,6 @@
 // submit topics
 import { TopicSelectionForm } from "./TopicSelectionForm";
-import { prisma } from "@/utils/prisma";
-
+import prisma from "@/utils/prisma";
 const getData = async (eventId: number) => {
   const event = await prisma.event.findUnique({
     where: {
@@ -37,8 +36,7 @@ export const TopicSelection = async ({ eventId }: { eventId: number }) => {
   return (
     <div className="mx-auto">
       <h1>Topic Selection</h1>
-      <div className="mb-8 text-gray-500 text-sm">
-      </div>
+      <div className="mb-8 text-gray-500 text-sm"></div>
       <TopicSelectionForm
         names={names}
         topics={topics}
