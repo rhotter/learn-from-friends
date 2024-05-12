@@ -7,7 +7,7 @@ export const TopicSelectionsInstructions = () => {
   if (!isAdmin) return null;
   return (
     <div className="my-4">
-      It's now time for people to select the topics they want to collaborate on!
+      It's now time for people to select the topics they want to learn!
     </div>
   );
 };

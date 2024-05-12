@@ -25,9 +25,8 @@ export const TopicSubmission = ({ eventId }: { eventId: number }) => (
       <div>
         Some examples:
         <ul>
-          <li>- How can backpacking and independent traveling culture change for the better?</li>
-<li>- Try to get more intuition for what entropy means (maybe reading https://colah.github.io/posts/2015-09-Visual-Information/)</li>
-         
+          <li>- How to exponentially speed up evolution</li>
+          <li>- Star Wars and the basics of International Relations Theory</li>
         </ul>
       </div>
     </div>
