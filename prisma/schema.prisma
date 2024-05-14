@@ -28,7 +28,7 @@ model Topic {
   id            Int          @id @default(autoincrement())
   teacher       Person       @relation(fields: [teacherId], references: [id])
   teacherId     Int          @unique
-  event         Event        @relation(fields: [eventId], references: [id])
+  event         Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId       Int
   name          String
   submittedTime DateTime     @default(now())
@@ -39,7 +39,7 @@ model Person {
   id          Int          @id @default(autoincrement())
   name        String
   topic       Topic?
-  event       Event        @relation(fields: [eventId], references: [id])
+  event       Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId     Int
   preferences Preference[]
 }
@@ -50,7 +50,7 @@ model Preference {
   personId Int
   topic    Topic  @relation(fields: [topicId], references: [id])
   topicId  Int
-  event    Event  @relation(fields: [eventId], references: [id])
+  event    Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
   eventId  Int
   rank     Int
 
