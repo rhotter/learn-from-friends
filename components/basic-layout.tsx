@@ -16,9 +16,9 @@ export const Layout: React.FC<{
 
 const Nav: React.FC = () => (
   <div className="w-full p-4 text-primary-background ">
-    <Link href="/">
-      <h2 className="cursor-pointer text-orange-500">
-        <span className="bg-white px-4 py-2 rounded-md">
+    <Link href="/" className="hover:underline">
+      <h2 className="cursor-pointer">
+        <span className="bg-white px-4 py-2 rounded-md font-mono">
           learn from friends
         </span>
       </h2>

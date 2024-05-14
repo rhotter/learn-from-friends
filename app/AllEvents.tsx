@@ -1,7 +1,5 @@
 import Link from "@/components/Link";
-import { NewEvent } from "@/components/NewEvent";
 import prisma from "@/utils/prisma";
-import { formatDistanceToNow } from "date-fns";
 
 export const AllEvents = async () => {
   const events = await prisma.event.findMany({
@@ -13,7 +11,7 @@ export const AllEvents = async () => {
   });
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       {events.map((event) => (
         <Event
           id={event.id}
@@ -31,14 +29,14 @@ const Event: React.FC<{
   name: string;
   date: Date;
 }> = ({ name, date, id }) => (
-  <Link href={`/event/${id}`} className="hover:no-underline">
-    <div className="border px-4 py-8 border-secondary-background rounded-lg hover:bg-primary-foreground cursor-pointer flex items-center">
-      <div>
-        <h3 className="mb-2 text-foreground">{name}</h3>
-        <p className="text-gray-500">{formatDate(date)}</p>
-      </div>
-    </div>
-  </Link>
+  <span className="before:content-['•'] before:mr-2 mb-2 text-foreground">
+    <Link href={`/event/${id}`} className="hover:text-gray-500">
+      <span className="underline" style={{ textDecorationColor: "gray" }}>
+        {name}
+      </span>
+    </Link>
+    <span className="text-gray-500"> ({formatDate(date)})</span>
+  </span>
 );
 
 const formatDate = (date: Date): string => {

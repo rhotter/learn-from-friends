@@ -8,9 +8,9 @@ export const revalidate = 0; // dynamic page
 export default async function Page() {
   return (
     <main>
-      <div>
+      <div className="font-mono text-sm">
         <div className="flex justify-between items-center pb-4">
-          <div className="text-2xl font-semibold">Events</div>
+          <div className="text-2xl font-semibold font-mono">Events</div>
           <NewEvent />
         </div>
         {/* @ts-ignore async component */}
