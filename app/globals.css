@@ -69,7 +69,7 @@ h2 {
 }
 
 h1 {
-  @apply text-xl font-semibold mb-4;
+  @apply text-xl font-semibold mb-4 font-mono;
 }
 
 p {

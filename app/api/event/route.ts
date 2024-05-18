@@ -15,3 +15,29 @@ export async function POST(req: Request) {
 
   return NextResponse.json(event);
 }
+
+export async function DELETE(req: Request) {
+  const { id } = await req.json();
+
+  try {
+    const event = await prisma.event.delete({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        preferences: true,
+        people: true,
+        topics: true,
+      },
+    });
+    return NextResponse.json({ message: "Event deleted successfully", event });
+  } catch (error) {
+    console.log(error);
+    return new Response(JSON.stringify({ error: error }), {
+      status: 404,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+}

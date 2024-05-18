@@ -5,7 +5,7 @@ export const Layout: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   return (
-    <div>
+    <div className="pb-4">
       <Nav />
       <div className="p-6 sm:p-8 my-0 max-w-xl mx-4 sm:mx-auto bg-white rounded-xl">
         {children}

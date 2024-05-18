@@ -21,7 +21,6 @@ export const TopicSubmission = ({ eventId }: { eventId: number }) => (
   <div className="mx-auto">
     <h1>Topic Submission</h1>
     <div className="mb-8 text-gray-500 text-sm">
-      <div className="mb-2">Submit a topic.</div>
       <div>
         Some examples:
         <ul>
@@ -78,6 +77,7 @@ function TopicSubmissionForm({ eventId }: { eventId: number }) {
     } finally {
       // redicted to the submitted page
       router.push(`/event/${eventId}/topic/submitted?type=submit`);
+      router.refresh();
     }
   }
 

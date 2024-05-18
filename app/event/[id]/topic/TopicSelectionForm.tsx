@@ -89,6 +89,7 @@ export const TopicSelectionForm: React.FC<TopicSelectionFormProps> = ({
       // redirect to submitted page if there's no error
       if (ret.ok) {
         router.push(`/event/${eventId}/topic/submitted?type=select`);
+        router.refresh();
       } else {
         const errorData = await ret.json();
         alert(errorData.message);

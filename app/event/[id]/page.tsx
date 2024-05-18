@@ -9,6 +9,8 @@ import { FormGroups } from "./FormGroups";
 import { QRCodeSVG } from "qrcode.react";
 import { TopicSelectionsInstructions } from "./TopicSelectionsInstructions";
 import Link from "@/components/Link";
+import { AdminQrCode } from "@/components/AdminQRCode";
+import { DeleteEvent } from "./topic/DeleteEvent";
 
 export interface TopicWithTeacher extends Topic {
   teacher: Person;
@@ -52,10 +54,11 @@ export default async function Page({ params }: { params: { id: number } }) {
   if (!event) return <div>Event not found</div>;
   return (
     <div>
-      <h1>{event.name} Event</h1>
+      <h1>{event.name} event</h1>
       {event.stage == Stage.SELECTIONS && <TopicSelectionsInstructions />}
       <TopicLink id={eventId} stage={event.stage} />
       <div className="my-8">
+        {/* for admins */}
         {event.stage == Stage.SELECTIONS ? (
           <FormGroups eventId={eventId} peoplePreferences={event.people} />
         ) : (
@@ -69,6 +72,7 @@ export default async function Page({ params }: { params: { id: number } }) {
         />
       )}
       <TopicSubmissions topics={event.topics} />
+      <DeleteEvent eventId={event.id} />
     </div>
   );
 }
@@ -77,20 +81,17 @@ const TopicLink = ({ id, stage }: { id: number; stage: Stage | undefined }) => {
   const baseUrl = "https://learnfromfriends.xyz";
   const route = `event/${id}/topic`;
   return (
-    <div className="mx-auto max-w-sm border border-orange-300 p-4 bg-orange-100/50 rounded-md">
-      {stage == Stage.SELECTIONS
-        ? "Select topics at (same as before)"
-        : "Submit topics at"}
-      <br />
-      <Link
-        href={`/${route}`}
-        className="font-semibold"
-      >{`${baseUrl}/${route}`}</Link>
-      <div className="flex justify-center mt-4">
+    <>
+      <div className="underline text-sm">
         <Link href={`/${route}`}>
-          <QRCodeSVG value={`${baseUrl}/${route}`} />
+          {stage == Stage.SELECTIONS ? "Pick your topic" : "Submit your topic"}
         </Link>
       </div>
-    </div>
+      <AdminQrCode
+        message={stage == Stage.SELECTIONS ? "Select topics" : "Submit topics"}
+        route={route}
+        baseUrl={baseUrl}
+      />
+    </>
   );
 };
